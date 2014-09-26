@@ -29,6 +29,7 @@ namespace TripExchange.Web
                     }
                 }
             });
+
             ConfigureAuth(app);
         }
     }

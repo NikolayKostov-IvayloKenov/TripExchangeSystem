@@ -5,6 +5,9 @@
 
     using Microsoft.Owin.Security.OAuth;
 
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
+
     public static class WebApiConfig
     {
         public static void Register(HttpConfiguration config)
@@ -21,6 +24,10 @@
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional });
+
+            var jsonFormatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
+            jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
         }
     }
 }
