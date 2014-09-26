@@ -33,6 +33,7 @@ namespace TripExchange.Web.Areas.HelpPage
             {
                 friendlyPath.AppendFormat("_{0}", queryKeyString.Replace('.', '-'));
             }
+
             return friendlyPath.ToString();
         }
     }

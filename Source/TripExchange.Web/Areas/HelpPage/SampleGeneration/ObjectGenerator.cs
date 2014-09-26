@@ -176,10 +176,12 @@ namespace TripExchange.Web.Areas.HelpPage
                 parameterValues[i] = objectGenerator.GenerateObject(genericArgs[i], createdObjectReferences);
                 failedToCreateTuple &= parameterValues[i] == null;
             }
+
             if (failedToCreateTuple)
             {
                 return null;
             }
+
             object result = Activator.CreateInstance(type, parameterValues);
             return result;
         }
@@ -209,6 +211,7 @@ namespace TripExchange.Web.Areas.HelpPage
                 // Failed to create key and values
                 return null;
             }
+
             object result = Activator.CreateInstance(keyValuePairType, keyObject, valueObject);
             return result;
         }
@@ -276,6 +279,7 @@ namespace TripExchange.Web.Areas.HelpPage
             {
                 return possibleValues.GetValue(0);
             }
+
             return null;
         }
 
@@ -292,10 +296,12 @@ namespace TripExchange.Web.Areas.HelpPage
             {
                 list = GenerateArray(typeof(object[]), size, createdObjectReferences);
             }
+
             if (list == null)
             {
                 return null;
             }
+
             if (isGeneric)
             {
                 Type argumentType = typeof(IEnumerable<>).MakeGenericType(queryableType.GetGenericArguments());
@@ -362,6 +368,7 @@ namespace TripExchange.Web.Areas.HelpPage
 
                 result = defaultCtor.Invoke(new object[0]);
             }
+
             createdObjectReferences.Add(type, result);
             SetPublicProperties(type, result, createdObjectReferences);
             SetPublicFields(type, result, createdObjectReferences);
@@ -412,8 +419,8 @@ namespace TripExchange.Web.Areas.HelpPage
                     { typeof(Decimal), index => (Decimal)index },
                     { typeof(Double), index => (Double)(index + 0.1) },
                     { typeof(Guid), index => Guid.NewGuid() },
-                    { typeof(Int16), index => (Int16)(index % Int16.MaxValue) },
-                    { typeof(Int32), index => (Int32)(index % Int32.MaxValue) },
+                    { typeof(Int16), index => (Int16)(index % short.MaxValue) },
+                    { typeof(Int32), index => (Int32)(index % int.MaxValue) },
                     { typeof(Int64), index => (Int64)index },
                     { typeof(Object), index => new object() },
                     { typeof(SByte), index => (SByte)64 },
@@ -421,7 +428,7 @@ namespace TripExchange.Web.Areas.HelpPage
                     { 
                         typeof(String), index =>
                         {
-                            return String.Format(CultureInfo.CurrentCulture, "sample string {0}", index);
+                            return string.Format(CultureInfo.CurrentCulture, "sample string {0}", index);
                         }
                     },
                     { 
@@ -430,13 +437,13 @@ namespace TripExchange.Web.Areas.HelpPage
                             return TimeSpan.FromTicks(1234567);
                         }
                     },
-                    { typeof(UInt16), index => (UInt16)(index % UInt16.MaxValue) },
-                    { typeof(UInt32), index => (UInt32)(index % UInt32.MaxValue) },
+                    { typeof(UInt16), index => (UInt16)(index % ushort.MaxValue) },
+                    { typeof(UInt32), index => (UInt32)(index % uint.MaxValue) },
                     { typeof(UInt64), index => (UInt64)index },
                     { 
                         typeof(Uri), index =>
                         {
-                            return new Uri(String.Format(CultureInfo.CurrentCulture, "http://webapihelppage{0}.com", index));
+                            return new Uri(string.Format(CultureInfo.CurrentCulture, "http://webapihelppage{0}.com", index));
                         }
                     },
                 };

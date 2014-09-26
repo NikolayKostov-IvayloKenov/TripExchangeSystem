@@ -452,6 +452,7 @@ namespace TripExchange.Web.Areas.HelpPage
                     modelGenerator.GetOrCreateModelDescription(parameterType);
                 }
             }
+
             return modelGenerator;
         }
 

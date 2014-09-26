@@ -394,7 +394,8 @@
             {
                 return GetErrorResult(result);
             }
-            return Ok();
+
+            return this.Ok();
         }
 
         protected override void Dispose(bool disposing)

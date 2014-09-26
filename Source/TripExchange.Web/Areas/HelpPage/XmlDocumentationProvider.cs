@@ -31,7 +31,8 @@ namespace TripExchange.Web.Areas.HelpPage
             {
                 throw new ArgumentNullException("documentPath");
             }
-            XPathDocument xpath = new XPathDocument(documentPath);
+
+            var xpath = new XPathDocument(documentPath);
             _documentNavigator = xpath.CreateNavigator();
         }
 
@@ -149,6 +150,7 @@ namespace TripExchange.Web.Areas.HelpPage
                 string[] argumentTypeNames = genericArguments.Select(t => GetTypeName(t)).ToArray();
                 name = String.Format(CultureInfo.InvariantCulture, "{0}{{{1}}}", genericTypeName, String.Join(",", argumentTypeNames));
             }
+
             if (type.IsNested)
             {
                 // Changing the nested type name from OuterType+InnerType to OuterType.InnerType to match the XML documentation syntax.

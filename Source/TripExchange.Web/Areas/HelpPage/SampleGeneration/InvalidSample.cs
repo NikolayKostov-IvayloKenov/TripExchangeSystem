@@ -1,7 +1,7 @@
-using System;
-
 namespace TripExchange.Web.Areas.HelpPage
 {
+    using System;
+
     /// <summary>
     /// This represents an invalid sample on the help page. There's a display template named InvalidSample associated with this class.
     /// </summary>
@@ -13,25 +13,26 @@ namespace TripExchange.Web.Areas.HelpPage
             {
                 throw new ArgumentNullException("errorMessage");
             }
-            ErrorMessage = errorMessage;
+
+            this.ErrorMessage = errorMessage;
         }
 
         public string ErrorMessage { get; private set; }
 
         public override bool Equals(object obj)
         {
-            InvalidSample other = obj as InvalidSample;
-            return other != null && ErrorMessage == other.ErrorMessage;
+            var other = obj as InvalidSample;
+            return other != null && this.ErrorMessage == other.ErrorMessage;
         }
 
         public override int GetHashCode()
         {
-            return ErrorMessage.GetHashCode();
+            return this.ErrorMessage.GetHashCode();
         }
 
         public override string ToString()
         {
-            return ErrorMessage;
+            return this.ErrorMessage;
         }
     }
 }

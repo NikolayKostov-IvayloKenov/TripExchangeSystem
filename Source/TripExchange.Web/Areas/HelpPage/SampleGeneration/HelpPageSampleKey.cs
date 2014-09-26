@@ -56,23 +56,26 @@ namespace TripExchange.Web.Areas.HelpPage
             {
                 throw new InvalidEnumArgumentException("sampleDirection", (int)sampleDirection, typeof(SampleDirection));
             }
+
             if (controllerName == null)
             {
                 throw new ArgumentNullException("controllerName");
             }
+
             if (actionName == null)
             {
                 throw new ArgumentNullException("actionName");
             }
+
             if (parameterNames == null)
             {
                 throw new ArgumentNullException("parameterNames");
             }
 
-            ControllerName = controllerName;
-            ActionName = actionName;
-            ParameterNames = new HashSet<string>(parameterNames, StringComparer.OrdinalIgnoreCase);
-            SampleDirection = sampleDirection;
+            this.ControllerName = controllerName;
+            this.ActionName = actionName;
+            this.ParameterNames = new HashSet<string>(parameterNames, StringComparer.OrdinalIgnoreCase);
+            this.SampleDirection = sampleDirection;
         }
 
         /// <summary>

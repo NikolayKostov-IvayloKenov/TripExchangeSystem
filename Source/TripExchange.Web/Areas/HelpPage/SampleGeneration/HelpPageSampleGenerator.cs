@@ -258,6 +258,7 @@ namespace TripExchange.Web.Areas.HelpPage
                         newFormatters.Add(formatter);
                     }
                 }
+
                 formatters = newFormatters;
             }
             else
@@ -295,6 +296,7 @@ namespace TripExchange.Web.Areas.HelpPage
             {
                 throw new ArgumentNullException("formatter");
             }
+
             if (mediaType == null)
             {
                 throw new ArgumentNullException("mediaType");
@@ -349,6 +351,7 @@ namespace TripExchange.Web.Areas.HelpPage
                 {
                     ms.Dispose();
                 }
+
                 if (content != null)
                 {
                     content.Dispose();
@@ -365,6 +368,7 @@ namespace TripExchange.Web.Areas.HelpPage
             {
                 return aggregateException.Flatten().InnerException;
             }
+
             return exception;
         }
 
@@ -415,6 +419,7 @@ namespace TripExchange.Web.Areas.HelpPage
                 case SampleDirection.Response:
                     return formatter.CanWriteType(type);
             }
+
             return false;
         }
 

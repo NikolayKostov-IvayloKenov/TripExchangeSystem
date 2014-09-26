@@ -27,7 +27,6 @@
 
             var jsonFormatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
             jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-
         }
     }
 }

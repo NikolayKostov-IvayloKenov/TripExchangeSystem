@@ -25,6 +25,7 @@ namespace TripExchange.Web
                         {
                             return Task.FromResult(new CorsPolicy { AllowAnyOrigin = true });
                         }
+
                         return Task.FromResult<CorsPolicy>(null);
                     }
                 }

@@ -162,6 +162,7 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
                         return GenerateCollectionModelDescription(modelType, genericArguments[0]);
                     }
                 }
+
                 if (genericArguments.Length == 2)
                 {
                     Type dictionaryType = typeof(IDictionary<,>).MakeGenericType(genericArguments);
@@ -257,6 +258,7 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
             {
                 return documentation;
             }
+
             if (DocumentationProvider != null)
             {
                 documentation = DocumentationProvider.GetDocumentation(type);
@@ -292,6 +294,7 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
                 {
                     return -1;
                 }
+
                 if (y.AnnotationAttribute is RequiredAttribute)
                 {
                     return 1;
@@ -414,9 +417,11 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
                     {
                         enumValue.Documentation = DocumentationProvider.GetDocumentation(field);
                     }
+
                     enumDescription.Values.Add(enumValue);
                 }
             }
+
             GeneratedModels.Add(enumDescription.Name, enumDescription);
 
             return enumDescription;
