@@ -4,8 +4,8 @@
     {
         public string Email { get; set; }
 
-        public bool HasRegistered { get; set; }
+        public bool IsDriver { get; set; }
 
-        public string LoginProvider { get; set; }
+        public string Car { get; set; }
     }
 }

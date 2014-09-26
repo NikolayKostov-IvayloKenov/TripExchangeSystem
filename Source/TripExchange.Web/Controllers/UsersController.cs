@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Net.Http;
     using System.Security.Claims;
     using System.Security.Cryptography;
@@ -61,16 +62,28 @@
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
-        public UserInfoViewModel GetUserInfo()
+        [Authorize]
+        public IHttpActionResult GetUserInfo()
         {
-            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            var externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            var email = User.Identity.GetUserName();
 
-            return new UserInfoViewModel
-                       {
-                           Email = User.Identity.GetUserName(),
-                           HasRegistered = externalLogin == null,
-                           LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
-                       };
+            var db = new ApplicationDbContext();
+            var user = db.Users.FirstOrDefault(x => x.UserName == email);
+
+            if (user == null)
+            {
+                return this.BadRequest(string.Format("Username {0} not found", email));
+            }
+
+            return
+                this.Ok(
+                    new UserInfoViewModel
+                        {
+                            Email = email,
+                            IsDriver = user.IsDriver,
+                            Car = user.Car,
+                        });
         }
 
         // POST api/Account/Logout
