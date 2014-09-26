@@ -62,7 +62,7 @@
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
-        // GET api/Account/UserInfo
+        // GET api/Users/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
         [Authorize]
@@ -89,7 +89,7 @@
                         });
         }
 
-        // POST api/Account/Logout
+        // POST api/Users/Logout
         [Route("Logout")]
         public IHttpActionResult Logout()
         {
@@ -97,7 +97,7 @@
             return this.Ok();
         }
 
-        // GET api/Account/ManageInfo?returnUrl=%2F&generateState=true
+        // GET api/Users/ManageInfo?returnUrl=%2F&generateState=true
         [Route("ManageInfo")]
         public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
         {
@@ -135,7 +135,7 @@
                        };
         }
 
-        // POST api/Account/ChangePassword
+        // POST api/Users/ChangePassword
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
@@ -155,7 +155,7 @@
             return this.Ok();
         }
 
-        // POST api/Account/SetPassword
+        // POST api/Users/SetPassword
         [Route("SetPassword")]
         public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
         {
@@ -174,7 +174,7 @@
             return this.Ok();
         }
 
-        // POST api/Account/AddExternalLogin
+        // POST api/Users/AddExternalLogin
         [Route("AddExternalLogin")]
         public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
         {
@@ -215,7 +215,7 @@
             return this.Ok();
         }
 
-        // POST api/Account/RemoveLogin
+        // POST api/Users/RemoveLogin
         [Route("RemoveLogin")]
         public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
         {
@@ -247,7 +247,7 @@
             return this.Ok();
         }
 
-        // GET api/Account/ExternalLogin
+        // GET api/Users/ExternalLogin
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
         [AllowAnonymous]
@@ -303,7 +303,7 @@
             return this.Ok();
         }
 
-        // GET api/Account/ExternalLogins?returnUrl=%2F&generateState=true
+        // GET api/Users/ExternalLogins?returnUrl=%2F&generateState=true
         [AllowAnonymous]
         [Route("ExternalLogins")]
         public IEnumerable<ExternalLoginViewModel> GetExternalLogins(string returnUrl, bool generateState = false)
@@ -348,7 +348,7 @@
             return logins;
         }
 
-        // POST api/Account/Register
+        // POST api/Users/Register
         [AllowAnonymous]
         [Route("Register")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
@@ -376,7 +376,7 @@
             return this.Ok();
         }
 
-        // POST api/Account/RegisterExternal
+        // POST api/Users/RegisterExternal
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("RegisterExternal")]
