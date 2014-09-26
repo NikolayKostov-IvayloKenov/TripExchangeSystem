@@ -405,6 +405,16 @@ namespace TripExchange.Web.Areas.HelpPage
             private long index = 0;
             private static readonly Dictionary<Type, Func<long, object>> DefaultGenerators = InitializeGenerators();
 
+            public static bool CanGenerateObject(Type type)
+            {
+                return DefaultGenerators.ContainsKey(type);
+            }
+
+            public object GenerateObject(Type type)
+            {
+                return DefaultGenerators[type](++this.index);
+            }
+
             [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "These are simple type factories and cannot be split up.")]
             private static Dictionary<Type, Func<long, object>> InitializeGenerators()
             {
@@ -447,16 +457,6 @@ namespace TripExchange.Web.Areas.HelpPage
                         }
                     },
                 };
-            }
-
-            public static bool CanGenerateObject(Type type)
-            {
-                return DefaultGenerators.ContainsKey(type);
-            }
-
-            public object GenerateObject(Type type)
-            {
-                return DefaultGenerators[type](++index);
             }
         }
     }
