@@ -69,6 +69,34 @@
                 return Request.GetOwinContext().Authentication;
             }
         }
+        
+        // POST api/Users/Register
+        [AllowAnonymous]
+        [Route("Register")]
+        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            var user = new ApplicationUser
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                IsDriver = model.IsDriver,
+                Car = model.Car
+            };
+
+            IdentityResult result = await this.UserManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                return this.GetErrorResult(result);
+            }
+
+            return this.Ok();
+        }
 
         // GET api/Users/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
@@ -104,10 +132,20 @@
             this.Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
             return this.Ok();
         }
+        
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.UserManager.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
 
         // GET api/Users/ManageInfo?returnUrl=%2F&generateState=true
         [Route("ManageInfo")]
-        public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
+        private async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
         {
             IdentityUser user = await this.UserManager.FindByIdAsync(User.Identity.GetUserId());
 
@@ -145,7 +183,7 @@
 
         // POST api/Users/ChangePassword
         [Route("ChangePassword")]
-        public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
+        private async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -165,7 +203,7 @@
 
         // POST api/Users/SetPassword
         [Route("SetPassword")]
-        public async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
+        private async Task<IHttpActionResult> SetPassword(SetPasswordBindingModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -184,7 +222,7 @@
 
         // POST api/Users/AddExternalLogin
         [Route("AddExternalLogin")]
-        public async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
+        private async Task<IHttpActionResult> AddExternalLogin(AddExternalLoginBindingModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -225,7 +263,7 @@
 
         // POST api/Users/RemoveLogin
         [Route("RemoveLogin")]
-        public async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
+        private async Task<IHttpActionResult> RemoveLogin(RemoveLoginBindingModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -260,7 +298,7 @@
         [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
         [AllowAnonymous]
         [Route("ExternalLogin", Name = "ExternalLogin")]
-        public async Task<IHttpActionResult> GetExternalLogin(string provider, string error = null)
+        private async Task<IHttpActionResult> GetExternalLogin(string provider, string error = null)
         {
             if (error != null)
             {
@@ -314,7 +352,7 @@
         // GET api/Users/ExternalLogins?returnUrl=%2F&generateState=true
         [AllowAnonymous]
         [Route("ExternalLogins")]
-        public IEnumerable<ExternalLoginViewModel> GetExternalLogins(string returnUrl, bool generateState = false)
+        private IEnumerable<ExternalLoginViewModel> GetExternalLogins(string returnUrl, bool generateState = false)
         {
             IEnumerable<AuthenticationDescription> descriptions = this.Authentication.GetExternalAuthenticationTypes();
             var logins = new List<ExternalLoginViewModel>();
@@ -356,39 +394,11 @@
             return logins;
         }
 
-        // POST api/Users/Register
-        [AllowAnonymous]
-        [Route("Register")]
-        public async Task<IHttpActionResult> Register(RegisterBindingModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
-            var user = new ApplicationUser
-                           {
-                               UserName = model.Email,
-                               Email = model.Email,
-                               IsDriver = model.IsDriver,
-                               Car = model.Car
-                           };
-
-            IdentityResult result = await this.UserManager.CreateAsync(user, model.Password);
-
-            if (!result.Succeeded)
-            {
-                return this.GetErrorResult(result);
-            }
-
-            return this.Ok();
-        }
-
         // POST api/Users/RegisterExternal
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("RegisterExternal")]
-        public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)
+        private async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -416,16 +426,6 @@
             }
 
             return this.Ok();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                this.UserManager.Dispose();
-            }
-
-            base.Dispose(disposing);
         }
 
         #region Helpers
