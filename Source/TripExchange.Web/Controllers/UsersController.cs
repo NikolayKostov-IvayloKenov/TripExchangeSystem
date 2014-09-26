@@ -21,18 +21,18 @@
     using TripExchange.Web.Results;
 
     [Authorize]
-    [RoutePrefix("api/Account")]
-    public class AccountController : ApiController
+    [RoutePrefix("api/users")]
+    public class UsersController : ApiController
     {
         private const string LocalLoginProvider = "Local";
 
         private ApplicationUserManager _userManager;
 
-        public AccountController()
+        public UsersController()
         {
         }
 
-        public AccountController(
+        public UsersController(
             ApplicationUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
