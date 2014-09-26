@@ -16,6 +16,7 @@
     using Microsoft.Owin.Security.Cookies;
     using Microsoft.Owin.Security.OAuth;
 
+    using TripExchange.Data;
     using TripExchange.Models;
     using TripExchange.Web.Models;
     using TripExchange.Web.Providers;
@@ -31,6 +32,7 @@
 
         public UsersController()
         {
+            this._userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()));
         }
 
         public UsersController(
