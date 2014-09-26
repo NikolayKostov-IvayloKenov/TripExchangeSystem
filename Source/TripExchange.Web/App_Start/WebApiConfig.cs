@@ -8,10 +8,15 @@ using Newtonsoft.Json.Serialization;
 
 namespace TripExchange.Web
 {
+    using System.Web.Http.Cors;
+
     public static class WebApiConfig
     {
         public static void Register(HttpConfiguration config)
         {
+            var corsOptions = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(corsOptions);
+
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.
             config.SuppressDefaultHostAuthentication();
