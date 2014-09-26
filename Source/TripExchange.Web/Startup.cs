@@ -7,9 +7,9 @@ using Microsoft.Owin.Cors;
 using System.Web.Cors;
 using System.Threading.Tasks;
 
-[assembly: OwinStartup(typeof(CorsApi.Startup))]
+[assembly: OwinStartup(typeof(TripExchange.Web.Startup))]
 
-namespace CorsApi
+namespace TripExchange.Web
 {
     public partial class Startup
     {
