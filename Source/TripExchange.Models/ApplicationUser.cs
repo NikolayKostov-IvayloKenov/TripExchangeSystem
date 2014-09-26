@@ -1,4 +1,4 @@
-﻿namespace TripExchange.Web.Models
+﻿namespace TripExchange.Models
 {
     using System.Security.Claims;
     using System.Threading.Tasks;

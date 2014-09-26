@@ -10,6 +10,7 @@
     using Microsoft.Owin.Security.Cookies;
     using Microsoft.Owin.Security.OAuth;
 
+    using TripExchange.Models;
     using TripExchange.Web.Models;
 
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
@@ -38,13 +39,12 @@
                 return;
             }
 
-            var oAuthIdentity =
-                await user.GenerateUserIdentityAsync(userManager, OAuthDefaults.AuthenticationType);
+            var oauthIdentity = await user.GenerateUserIdentityAsync(userManager, OAuthDefaults.AuthenticationType);
             var cookiesIdentity =
                 await user.GenerateUserIdentityAsync(userManager, CookieAuthenticationDefaults.AuthenticationType);
 
             AuthenticationProperties properties = CreateProperties(user.UserName);
-            var ticket = new AuthenticationTicket(oAuthIdentity, properties);
+            var ticket = new AuthenticationTicket(oauthIdentity, properties);
             context.Validated(ticket);
             context.Request.Context.Authentication.SignIn(cookiesIdentity);
         }

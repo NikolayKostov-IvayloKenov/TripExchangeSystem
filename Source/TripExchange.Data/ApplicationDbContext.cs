@@ -1,6 +1,8 @@
-﻿namespace TripExchange.Web.Models
+﻿namespace TripExchange.Data
 {
     using Microsoft.AspNet.Identity.EntityFramework;
+
+    using TripExchange.Models;
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

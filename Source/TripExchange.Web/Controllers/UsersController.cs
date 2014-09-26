@@ -16,6 +16,7 @@
     using Microsoft.Owin.Security.Cookies;
     using Microsoft.Owin.Security.OAuth;
 
+    using TripExchange.Models;
     using TripExchange.Web.Models;
     using TripExchange.Web.Providers;
     using TripExchange.Web.Results;
