@@ -5,11 +5,13 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNet.Identity.EntityFramework;
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin.Security;
     using Microsoft.Owin.Security.Cookies;
     using Microsoft.Owin.Security.OAuth;
 
+    using TripExchange.Data;
     using TripExchange.Models;
     using TripExchange.Web.Models;
 
@@ -29,9 +31,10 @@
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
+            // TODO: This throws a null reference exception var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
+            var userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()));
 
-            ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
+            var user = await userManager.FindAsync(context.UserName, context.Password);
 
             if (user == null)
             {
