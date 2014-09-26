@@ -19,6 +19,7 @@
     using TripExchange.Data;
     using TripExchange.Models;
     using TripExchange.Web.Models;
+    using TripExchange.Web.Models.Users;
     using TripExchange.Web.Providers;
     using TripExchange.Web.Results;
 
