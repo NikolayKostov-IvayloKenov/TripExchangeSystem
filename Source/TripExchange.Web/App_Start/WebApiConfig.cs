@@ -9,9 +9,6 @@
     {
         public static void Register(HttpConfiguration config)
         {
-            var corsOptions = new EnableCorsAttribute("*", "*", "*");
-            config.EnableCors(corsOptions);
-
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.
             config.SuppressDefaultHostAuthentication();
