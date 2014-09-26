@@ -18,22 +18,21 @@
 
     using TripExchange.Data;
     using TripExchange.Models;
-    using TripExchange.Web.Models;
     using TripExchange.Web.Models.Users;
     using TripExchange.Web.Providers;
     using TripExchange.Web.Results;
 
     [Authorize]
     [RoutePrefix("api/users")]
-    public class UsersController : ApiController
+    public class UsersController : BaseApiController
     {
         private const string LocalLoginProvider = "Local";
 
-        private ApplicationUserManager _userManager;
+        private ApplicationUserManager userManager;
 
         public UsersController()
         {
-            this._userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+            this.userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()));
         }
 
         public UsersController(
@@ -48,12 +47,12 @@
         {
             get
             {
-                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                return userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
 
             private set
             {
-                _userManager = value;
+                userManager = value;
             }
         }
 

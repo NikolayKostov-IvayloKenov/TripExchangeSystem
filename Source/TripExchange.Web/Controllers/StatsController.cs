@@ -1,8 +1,6 @@
 ﻿namespace TripExchange.Web.Controllers
 {
-    using System.Web.Http;
-
-    public class StatsController : ApiController
+    public class StatsController : BaseApiController
     {
     }
 }
