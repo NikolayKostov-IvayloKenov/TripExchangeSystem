@@ -1,11 +1,12 @@
-using System;
-using System.Web.Http;
-using System.Web.Mvc;
-using TripExchange.Web.Areas.HelpPage.ModelDescriptions;
-using TripExchange.Web.Areas.HelpPage.Models;
-
 namespace TripExchange.Web.Areas.HelpPage.Controllers
 {
+    using System;
+    using System.Web.Http;
+    using System.Web.Mvc;
+
+    using TripExchange.Web.Areas.HelpPage.ModelDescriptions;
+    using TripExchange.Web.Areas.HelpPage.Models;
+
     /// <summary>
     /// The controller that will handle requests for the help page.
     /// </summary>

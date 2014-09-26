@@ -1,7 +1,7 @@
-using System;
-
 namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
 {
+    using System;
+
     /// <summary>
     /// Describes a type model.
     /// </summary>
