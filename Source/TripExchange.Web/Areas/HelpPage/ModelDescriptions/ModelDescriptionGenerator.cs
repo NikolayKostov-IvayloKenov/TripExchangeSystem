@@ -74,15 +74,15 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
             { typeof(char), "character" },
             { typeof(sbyte), "signed byte" },
             { typeof(Uri), "URI" },
-            { typeof(Single), "decimal number" },
-            { typeof(Double), "decimal number" },
-            { typeof(Decimal), "decimal number" },
-            { typeof(String), "string" },
+            { typeof(float), "decimal number" },
+            { typeof(double), "decimal number" },
+            { typeof(decimal), "decimal number" },
+            { typeof(string), "string" },
             { typeof(Guid), "globally unique identifier" },
             { typeof(TimeSpan), "time interval" },
             { typeof(DateTime), "date" },
             { typeof(DateTimeOffset), "date" },
-            { typeof(Boolean), "boolean" },
+            { typeof(bool), "boolean" },
         };
 
         private readonly Lazy<IModelDocumentationProvider> documentationProvider;

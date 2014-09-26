@@ -15,7 +15,7 @@ namespace TripExchange.Web.Areas.HelpPage
     {
         internal const int DefaultCollectionSize = 2;
         private readonly SimpleTypeObjectGenerator simpleObjectGenerator = new SimpleTypeObjectGenerator();
-
+        
         /// <summary>
         /// Generates an object for a given type. The type needs to be public, have a public default constructor and settable public properties/fields. Currently it supports the following types:
         /// Simple types: <see cref="int"/>, <see cref="string"/>, <see cref="Enum"/>, <see cref="DateTime"/>, <see cref="Uri"/>, etc.
@@ -33,72 +33,6 @@ namespace TripExchange.Web.Areas.HelpPage
         public object GenerateObject(Type type)
         {
             return this.GenerateObject(type, new Dictionary<Type, object>());
-        }
-
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Here we just want to return null if anything goes wrong.")]
-        private object GenerateObject(Type type, Dictionary<Type, object> createdObjectReferences)
-        {
-            try
-            {
-                if (SimpleTypeObjectGenerator.CanGenerateObject(type))
-                {
-                    return simpleObjectGenerator.GenerateObject(type);
-                }
-
-                if (type.IsArray)
-                {
-                    return GenerateArray(type, DefaultCollectionSize, createdObjectReferences);
-                }
-
-                if (type.IsGenericType)
-                {
-                    return GenerateGenericType(type, DefaultCollectionSize, createdObjectReferences);
-                }
-
-                if (type == typeof(IDictionary))
-                {
-                    return GenerateDictionary(typeof(Hashtable), DefaultCollectionSize, createdObjectReferences);
-                }
-
-                if (typeof(IDictionary).IsAssignableFrom(type))
-                {
-                    return GenerateDictionary(type, DefaultCollectionSize, createdObjectReferences);
-                }
-
-                if (type == typeof(IList) ||
-                    type == typeof(IEnumerable) ||
-                    type == typeof(ICollection))
-                {
-                    return GenerateCollection(typeof(ArrayList), DefaultCollectionSize, createdObjectReferences);
-                }
-
-                if (typeof(IList).IsAssignableFrom(type))
-                {
-                    return GenerateCollection(type, DefaultCollectionSize, createdObjectReferences);
-                }
-
-                if (type == typeof(IQueryable))
-                {
-                    return GenerateQueryable(type, DefaultCollectionSize, createdObjectReferences);
-                }
-
-                if (type.IsEnum)
-                {
-                    return GenerateEnum(type);
-                }
-
-                if (type.IsPublic || type.IsNestedPublic)
-                {
-                    return GenerateComplexObject(type, createdObjectReferences);
-                }
-            }
-            catch
-            {
-                // Returns null if anything fails
-                return null;
-            }
-
-            return null;
         }
 
         private static object GenerateGenericType(Type type, int collectionSize, Dictionary<Type, object> createdObjectReferences)
@@ -400,10 +334,76 @@ namespace TripExchange.Web.Areas.HelpPage
             }
         }
 
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Here we just want to return null if anything goes wrong.")]
+        private object GenerateObject(Type type, Dictionary<Type, object> createdObjectReferences)
+        {
+            try
+            {
+                if (SimpleTypeObjectGenerator.CanGenerateObject(type))
+                {
+                    return this.simpleObjectGenerator.GenerateObject(type);
+                }
+
+                if (type.IsArray)
+                {
+                    return GenerateArray(type, DefaultCollectionSize, createdObjectReferences);
+                }
+
+                if (type.IsGenericType)
+                {
+                    return GenerateGenericType(type, DefaultCollectionSize, createdObjectReferences);
+                }
+
+                if (type == typeof(IDictionary))
+                {
+                    return GenerateDictionary(typeof(Hashtable), DefaultCollectionSize, createdObjectReferences);
+                }
+
+                if (typeof(IDictionary).IsAssignableFrom(type))
+                {
+                    return GenerateDictionary(type, DefaultCollectionSize, createdObjectReferences);
+                }
+
+                if (type == typeof(IList) ||
+                    type == typeof(IEnumerable) ||
+                    type == typeof(ICollection))
+                {
+                    return GenerateCollection(typeof(ArrayList), DefaultCollectionSize, createdObjectReferences);
+                }
+
+                if (typeof(IList).IsAssignableFrom(type))
+                {
+                    return GenerateCollection(type, DefaultCollectionSize, createdObjectReferences);
+                }
+
+                if (type == typeof(IQueryable))
+                {
+                    return GenerateQueryable(type, DefaultCollectionSize, createdObjectReferences);
+                }
+
+                if (type.IsEnum)
+                {
+                    return GenerateEnum(type);
+                }
+
+                if (type.IsPublic || type.IsNestedPublic)
+                {
+                    return GenerateComplexObject(type, createdObjectReferences);
+                }
+            }
+            catch
+            {
+                // Returns null if anything fails
+                return null;
+            }
+
+            return null;
+        }
+
         private class SimpleTypeObjectGenerator
         {
-            private long index = 0;
             private static readonly Dictionary<Type, Func<long, object>> DefaultGenerators = InitializeGenerators();
+            private long index = 0;
 
             public static bool CanGenerateObject(Type type)
             {
@@ -420,23 +420,23 @@ namespace TripExchange.Web.Areas.HelpPage
             {
                 return new Dictionary<Type, Func<long, object>>
                 {
-                    { typeof(Boolean), index => true },
-                    { typeof(Byte), index => (Byte)64 },
-                    { typeof(Char), index => (Char)65 },
+                    { typeof(bool), index => true },
+                    { typeof(byte), index => (byte)64 },
+                    { typeof(char), index => (char)65 },
                     { typeof(DateTime), index => DateTime.Now },
                     { typeof(DateTimeOffset), index => new DateTimeOffset(DateTime.Now) },
                     { typeof(DBNull), index => DBNull.Value },
-                    { typeof(Decimal), index => (Decimal)index },
-                    { typeof(Double), index => (Double)(index + 0.1) },
+                    { typeof(decimal), index => (decimal)index },
+                    { typeof(double), index => index + 0.1 },
                     { typeof(Guid), index => Guid.NewGuid() },
-                    { typeof(Int16), index => (Int16)(index % short.MaxValue) },
-                    { typeof(Int32), index => (Int32)(index % int.MaxValue) },
-                    { typeof(Int64), index => (Int64)index },
-                    { typeof(Object), index => new object() },
-                    { typeof(SByte), index => (SByte)64 },
-                    { typeof(Single), index => (Single)(index + 0.1) },
+                    { typeof(short), index => (short)(index % short.MaxValue) },
+                    { typeof(int), index => (int)(index % int.MaxValue) },
+                    { typeof(long), index => index },
+                    { typeof(object), index => new object() },
+                    { typeof(sbyte), index => (sbyte)64 },
+                    { typeof(float), index => (float)(index + 0.1) },
                     { 
-                        typeof(String), index =>
+                        typeof(string), index =>
                         {
                             return string.Format(CultureInfo.CurrentCulture, "sample string {0}", index);
                         }
@@ -447,9 +447,9 @@ namespace TripExchange.Web.Areas.HelpPage
                             return TimeSpan.FromTicks(1234567);
                         }
                     },
-                    { typeof(UInt16), index => (UInt16)(index % ushort.MaxValue) },
-                    { typeof(UInt32), index => (UInt32)(index % uint.MaxValue) },
-                    { typeof(UInt64), index => (UInt64)index },
+                    { typeof(ushort), index => (ushort)(index % ushort.MaxValue) },
+                    { typeof(uint), index => (uint)(index % uint.MaxValue) },
+                    { typeof(ulong), index => (ulong)index },
                     { 
                         typeof(Uri), index =>
                         {

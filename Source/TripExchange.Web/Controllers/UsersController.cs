@@ -62,6 +62,14 @@
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
+        private IAuthenticationManager Authentication
+        {
+            get
+            {
+                return Request.GetOwinContext().Authentication;
+            }
+        }
+
         // GET api/Users/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
@@ -422,14 +430,6 @@
 
         #region Helpers
 
-        private IAuthenticationManager Authentication
-        {
-            get
-            {
-                return Request.GetOwinContext().Authentication;
-            }
-        }
-
         private IHttpActionResult GetErrorResult(IdentityResult result)
         {
             if (result == null)
@@ -459,6 +459,27 @@
             return null;
         }
 
+        private static class RandomOAuthStateGenerator
+        {
+            private static RandomNumberGenerator random = new RNGCryptoServiceProvider();
+
+            public static string Generate(int strengthInBits)
+            {
+                const int BitsPerByte = 8;
+
+                if (strengthInBits % BitsPerByte != 0)
+                {
+                    throw new ArgumentException("strengthInBits must be evenly divisible by 8.", "strengthInBits");
+                }
+
+                int strengthInBytes = strengthInBits / BitsPerByte;
+
+                var data = new byte[strengthInBytes];
+                random.GetBytes(data);
+                return HttpServerUtility.UrlTokenEncode(data);
+            }
+        }
+
         private class ExternalLoginData
         {
             public string LoginProvider { get; set; }
@@ -466,19 +487,6 @@
             public string ProviderKey { get; set; }
 
             public string UserName { get; set; }
-
-            public IList<Claim> GetClaims()
-            {
-                IList<Claim> claims = new List<Claim>();
-                claims.Add(new Claim(ClaimTypes.NameIdentifier, this.ProviderKey, null, this.LoginProvider));
-
-                if (this.UserName != null)
-                {
-                    claims.Add(new Claim(ClaimTypes.Name, this.UserName, null, this.LoginProvider));
-                }
-
-                return claims;
-            }
 
             public static ExternalLoginData FromIdentity(ClaimsIdentity identity)
             {
@@ -501,32 +509,24 @@
                 }
 
                 return new ExternalLoginData
-                           {
-                               LoginProvider = providerKeyClaim.Issuer,
-                               ProviderKey = providerKeyClaim.Value,
-                               UserName = identity.FindFirstValue(ClaimTypes.Name)
-                           };
-            }
-        }
-
-        private static class RandomOAuthStateGenerator
-        {
-            private static RandomNumberGenerator random = new RNGCryptoServiceProvider();
-
-            public static string Generate(int strengthInBits)
-            {
-                const int BitsPerByte = 8;
-
-                if (strengthInBits % BitsPerByte != 0)
                 {
-                    throw new ArgumentException("strengthInBits must be evenly divisible by 8.", "strengthInBits");
+                    LoginProvider = providerKeyClaim.Issuer,
+                    ProviderKey = providerKeyClaim.Value,
+                    UserName = identity.FindFirstValue(ClaimTypes.Name)
+                };
+            }
+
+            public IList<Claim> GetClaims()
+            {
+                IList<Claim> claims = new List<Claim>();
+                claims.Add(new Claim(ClaimTypes.NameIdentifier, this.ProviderKey, null, this.LoginProvider));
+
+                if (this.UserName != null)
+                {
+                    claims.Add(new Claim(ClaimTypes.Name, this.UserName, null, this.LoginProvider));
                 }
 
-                int strengthInBytes = strengthInBits / BitsPerByte;
-
-                var data = new byte[strengthInBytes];
-                random.GetBytes(data);
-                return HttpServerUtility.UrlTokenEncode(data);
+                return claims;
             }
         }
 
