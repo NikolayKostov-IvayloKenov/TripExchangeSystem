@@ -32,13 +32,16 @@
         private ApplicationUserManager userManager;
 
         public UsersController()
+            : base(new TripExchangeData())
         {
             this.userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(new ApplicationDbContext()));
         }
 
         public UsersController(
             ApplicationUserManager userManager,
-            ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
+            ISecureDataFormat<AuthenticationTicket> accessTokenFormat,
+            ITripExchangeData data)
+            : base(data)
         {
             this.UserManager = userManager;
             this.AccessTokenFormat = accessTokenFormat;
