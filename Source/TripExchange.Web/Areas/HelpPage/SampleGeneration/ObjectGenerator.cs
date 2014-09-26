@@ -32,7 +32,7 @@ namespace TripExchange.Web.Areas.HelpPage
         /// <returns>An object of the given type.</returns>
         public object GenerateObject(Type type)
         {
-            return GenerateObject(type, new Dictionary<Type, object>());
+            return this.GenerateObject(type, new Dictionary<Type, object>());
         }
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Here we just want to return null if anything goes wrong.")]

@@ -223,8 +223,8 @@ namespace TripExchange.Web.Areas.HelpPage
             string modelId = ApiModelPrefix + apiDescriptionId;
             if (!config.Properties.TryGetValue(modelId, out model))
             {
-                Collection<ApiDescription> apiDescriptions = config.Services.GetApiExplorer().ApiDescriptions;
-                ApiDescription apiDescription = apiDescriptions.FirstOrDefault(api => String.Equals(api.GetFriendlyId(), apiDescriptionId, StringComparison.OrdinalIgnoreCase));
+                var apiDescriptions = config.Services.GetApiExplorer().ApiDescriptions;
+                var apiDescription = apiDescriptions.FirstOrDefault(api => string.Equals(api.GetFriendlyId(), apiDescriptionId, StringComparison.OrdinalIgnoreCase));
                 if (apiDescription != null)
                 {
                     model = GenerateApiModel(apiDescription, config);
@@ -237,7 +237,7 @@ namespace TripExchange.Web.Areas.HelpPage
 
         private static HelpPageApiModel GenerateApiModel(ApiDescription apiDescription, HttpConfiguration config)
         {
-            HelpPageApiModel apiModel = new HelpPageApiModel()
+            var apiModel = new HelpPageApiModel()
             {
                 ApiDescription = apiDescription,
             };
@@ -338,15 +338,17 @@ namespace TripExchange.Web.Areas.HelpPage
             return TypeDescriptor.GetConverter(parameterType).CanConvertFrom(typeof(string));
         }
 
-        private static ParameterDescription AddParameterDescription(HelpPageApiModel apiModel,
-            ApiParameterDescription apiParameter, ModelDescription typeDescription)
+        private static ParameterDescription AddParameterDescription(
+            HelpPageApiModel apiModel,
+            ApiParameterDescription apiParameter,
+            ModelDescription typeDescription)
         {
-            ParameterDescription parameterDescription = new ParameterDescription
-            {
-                Name = apiParameter.Name,
-                Documentation = apiParameter.Documentation,
-                TypeDescription = typeDescription,
-            };
+            var parameterDescription = new ParameterDescription
+                                           {
+                                               Name = apiParameter.Name,
+                                               Documentation = apiParameter.Documentation,
+                                               TypeDescription = typeDescription,
+                                           };
 
             apiModel.UriParameters.Add(parameterDescription);
             return parameterDescription;
@@ -359,14 +361,14 @@ namespace TripExchange.Web.Areas.HelpPage
             {
                 if (apiParameter.Source == ApiParameterSource.FromBody)
                 {
-                    Type parameterType = apiParameter.ParameterDescriptor.ParameterType;
+                    var parameterType = apiParameter.ParameterDescriptor.ParameterType;
                     apiModel.RequestModelDescription = modelGenerator.GetOrCreateModelDescription(parameterType);
                     apiModel.RequestDocumentation = apiParameter.Documentation;
                 }
                 else if (apiParameter.ParameterDescriptor != null &&
                     apiParameter.ParameterDescriptor.ParameterType == typeof(HttpRequestMessage))
                 {
-                    Type parameterType = sampleGenerator.ResolveHttpRequestMessageType(apiDescription);
+                    var parameterType = sampleGenerator.ResolveHttpRequestMessageType(apiDescription);
 
                     if (parameterType != null)
                     {
@@ -405,9 +407,11 @@ namespace TripExchange.Web.Areas.HelpPage
             }
             catch (Exception e)
             {
-                apiModel.ErrorMessages.Add(String.Format(CultureInfo.CurrentCulture,
-                    "An exception has occurred while generating the sample. Exception message: {0}",
-                    HelpPageSampleGenerator.UnwrapException(e).Message));
+                apiModel.ErrorMessages.Add(
+                    string.Format(
+                        CultureInfo.CurrentCulture,
+                        "An exception has occurred while generating the sample. Exception message: {0}",
+                        HelpPageSampleGenerator.UnwrapException(e).Message));
             }
         }
 

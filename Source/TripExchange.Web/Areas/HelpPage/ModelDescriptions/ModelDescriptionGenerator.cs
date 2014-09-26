@@ -49,13 +49,13 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
             },
             { typeof(DataTypeAttribute), a =>
                 {
-                    DataTypeAttribute dataType = (DataTypeAttribute)a;
+                    var dataType = (DataTypeAttribute)a;
                     return string.Format(CultureInfo.CurrentCulture, "Data type: {0}", dataType.CustomDataType ?? dataType.DataType.ToString());
                 }
             },
             { typeof(RegularExpressionAttribute), a =>
                 {
-                    RegularExpressionAttribute regularExpression = (RegularExpressionAttribute)a;
+                    var regularExpression = (RegularExpressionAttribute)a;
                     return string.Format(CultureInfo.CurrentCulture, "Matching regular expression pattern: {0}", regularExpression.Pattern);
                 }
             },
@@ -64,15 +64,15 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
         // Modify this to add more default documentations.
         private readonly IDictionary<Type, string> defaultTypeDocumentation = new Dictionary<Type, string>
         {
-            { typeof(Int16), "integer" },
-            { typeof(Int32), "integer" },
-            { typeof(Int64), "integer" },
-            { typeof(UInt16), "unsigned integer" },
-            { typeof(UInt32), "unsigned integer" },
-            { typeof(UInt64), "unsigned integer" },
-            { typeof(Byte), "byte" },
-            { typeof(Char), "character" },
-            { typeof(SByte), "signed byte" },
+            { typeof(short), "integer" },
+            { typeof(int), "integer" },
+            { typeof(long), "integer" },
+            { typeof(ushort), "unsigned integer" },
+            { typeof(uint), "unsigned integer" },
+            { typeof(ulong), "unsigned integer" },
+            { typeof(byte), "byte" },
+            { typeof(char), "character" },
+            { typeof(sbyte), "signed byte" },
             { typeof(Uri), "URI" },
             { typeof(Single), "decimal number" },
             { typeof(Double), "decimal number" },
@@ -85,7 +85,7 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
             { typeof(Boolean), "boolean" },
         };
 
-        private Lazy<IModelDocumentationProvider> documentationProvider;
+        private readonly Lazy<IModelDocumentationProvider> documentationProvider;
 
         public ModelDescriptionGenerator(HttpConfiguration config)
         {
@@ -94,8 +94,8 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
                 throw new ArgumentNullException("config");
             }
 
-            documentationProvider = new Lazy<IModelDocumentationProvider>(() => config.Services.GetDocumentationProvider() as IModelDocumentationProvider);
-            GeneratedModels = new Dictionary<string, ModelDescription>(StringComparer.OrdinalIgnoreCase);
+            this.documentationProvider = new Lazy<IModelDocumentationProvider>(() => config.Services.GetDocumentationProvider() as IModelDocumentationProvider);
+            this.GeneratedModels = new Dictionary<string, ModelDescription>(StringComparer.OrdinalIgnoreCase);
         }
 
         public Dictionary<string, ModelDescription> GeneratedModels { get; private set; }
@@ -104,7 +104,7 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
         {
             get
             {
-                return documentationProvider.Value;
+                return this.documentationProvider.Value;
             }
         }
 
@@ -123,15 +123,14 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
 
             ModelDescription modelDescription;
             string modelName = ModelNameHelper.GetModelName(modelType);
-            if (GeneratedModels.TryGetValue(modelName, out modelDescription))
+            if (this.GeneratedModels.TryGetValue(modelName, out modelDescription))
             {
                 if (modelType != modelDescription.ModelType)
                 {
                     throw new InvalidOperationException(
                         string.Format(
                             CultureInfo.CurrentCulture,
-                            "A model description could not be created. Duplicate model name '{0}' was found for types '{1}' and '{2}'. " +
-                            "Use the [ModelName] attribute to change the model name for at least one of the types so that it has a unique name.",
+                            "A model description could not be created. Duplicate model name '{0}' was found for types '{1}' and '{2}'. " + "Use the [ModelName] attribute to change the model name for at least one of the types so that it has a unique name.",
                             modelName,
                             modelDescription.ModelType.FullName,
                             modelType.FullName));
@@ -140,14 +139,14 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
                 return modelDescription;
             }
 
-            if (defaultTypeDocumentation.ContainsKey(modelType))
+            if (this.defaultTypeDocumentation.ContainsKey(modelType))
             {
-                return GenerateSimpleTypeModelDescription(modelType);
+                return this.GenerateSimpleTypeModelDescription(modelType);
             }
 
             if (modelType.IsEnum)
             {
-                return GenerateEnumTypeModelDescription(modelType);
+                return this.GenerateEnumTypeModelDescription(modelType);
             }
 
             if (modelType.IsGenericType)
@@ -159,7 +158,7 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
                     Type enumerableType = typeof(IEnumerable<>).MakeGenericType(genericArguments);
                     if (enumerableType.IsAssignableFrom(modelType))
                     {
-                        return GenerateCollectionModelDescription(modelType, genericArguments[0]);
+                        return this.GenerateCollectionModelDescription(modelType, genericArguments[0]);
                     }
                 }
 
@@ -168,13 +167,13 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
                     Type dictionaryType = typeof(IDictionary<,>).MakeGenericType(genericArguments);
                     if (dictionaryType.IsAssignableFrom(modelType))
                     {
-                        return GenerateDictionaryModelDescription(modelType, genericArguments[0], genericArguments[1]);
+                        return this.GenerateDictionaryModelDescription(modelType, genericArguments[0], genericArguments[1]);
                     }
 
                     Type keyValuePairType = typeof(KeyValuePair<,>).MakeGenericType(genericArguments);
                     if (keyValuePairType.IsAssignableFrom(modelType))
                     {
-                        return GenerateKeyValuePairModelDescription(modelType, genericArguments[0], genericArguments[1]);
+                        return this.GenerateKeyValuePairModelDescription(modelType, genericArguments[0], genericArguments[1]);
                     }
                 }
             }
@@ -182,31 +181,31 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
             if (modelType.IsArray)
             {
                 Type elementType = modelType.GetElementType();
-                return GenerateCollectionModelDescription(modelType, elementType);
+                return this.GenerateCollectionModelDescription(modelType, elementType);
             }
 
             if (modelType == typeof(NameValueCollection))
             {
-                return GenerateDictionaryModelDescription(modelType, typeof(string), typeof(string));
+                return this.GenerateDictionaryModelDescription(modelType, typeof(string), typeof(string));
             }
 
             if (typeof(IDictionary).IsAssignableFrom(modelType))
             {
-                return GenerateDictionaryModelDescription(modelType, typeof(object), typeof(object));
+                return this.GenerateDictionaryModelDescription(modelType, typeof(object), typeof(object));
             }
 
             if (typeof(IEnumerable).IsAssignableFrom(modelType))
             {
-                return GenerateCollectionModelDescription(modelType, typeof(object));
+                return this.GenerateCollectionModelDescription(modelType, typeof(object));
             }
 
-            return GenerateComplexTypeModelDescription(modelType);
+            return this.GenerateComplexTypeModelDescription(modelType);
         }
 
         // Change this to provide different name for the member.
         private static string GetMemberName(MemberInfo member, bool hasDataContractAttribute)
         {
-            JsonPropertyAttribute jsonProperty = member.GetCustomAttribute<JsonPropertyAttribute>();
+            var jsonProperty = member.GetCustomAttribute<JsonPropertyAttribute>();
             if (jsonProperty != null && !string.IsNullOrEmpty(jsonProperty.PropertyName))
             {
                 return jsonProperty.PropertyName;
@@ -214,7 +213,7 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
 
             if (hasDataContractAttribute)
             {
-                DataMemberAttribute dataMember = member.GetCustomAttribute<DataMemberAttribute>();
+                var dataMember = member.GetCustomAttribute<DataMemberAttribute>();
                 if (dataMember != null && !string.IsNullOrEmpty(dataMember.Name))
                 {
                     return dataMember.Name;
@@ -226,11 +225,11 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
 
         private static bool ShouldDisplayMember(MemberInfo member, bool hasDataContractAttribute)
         {
-            JsonIgnoreAttribute jsonIgnore = member.GetCustomAttribute<JsonIgnoreAttribute>();
-            XmlIgnoreAttribute xmlIgnore = member.GetCustomAttribute<XmlIgnoreAttribute>();
-            IgnoreDataMemberAttribute ignoreDataMember = member.GetCustomAttribute<IgnoreDataMemberAttribute>();
-            NonSerializedAttribute nonSerialized = member.GetCustomAttribute<NonSerializedAttribute>();
-            ApiExplorerSettingsAttribute apiExplorerSetting = member.GetCustomAttribute<ApiExplorerSettingsAttribute>();
+            var jsonIgnore = member.GetCustomAttribute<JsonIgnoreAttribute>();
+            var xmlIgnore = member.GetCustomAttribute<XmlIgnoreAttribute>();
+            var ignoreDataMember = member.GetCustomAttribute<IgnoreDataMemberAttribute>();
+            var nonSerialized = member.GetCustomAttribute<NonSerializedAttribute>();
+            var apiExplorerSetting = member.GetCustomAttribute<ApiExplorerSettingsAttribute>();
 
             bool hasMemberAttribute = member.DeclaringType.IsEnum ?
                 member.GetCustomAttribute<EnumMemberAttribute>() != null :
@@ -254,14 +253,14 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
         private string CreateDefaultDocumentation(Type type)
         {
             string documentation;
-            if (defaultTypeDocumentation.TryGetValue(type, out documentation))
+            if (this.defaultTypeDocumentation.TryGetValue(type, out documentation))
             {
                 return documentation;
             }
 
-            if (DocumentationProvider != null)
+            if (this.DocumentationProvider != null)
             {
-                documentation = DocumentationProvider.GetDocumentation(type);
+                documentation = this.DocumentationProvider.GetDocumentation(type);
             }
 
             return documentation;
@@ -269,13 +268,13 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
 
         private void GenerateAnnotations(MemberInfo property, ParameterDescription propertyModel)
         {
-            List<ParameterAnnotation> annotations = new List<ParameterAnnotation>();
+            var annotations = new List<ParameterAnnotation>();
 
             IEnumerable<Attribute> attributes = property.GetCustomAttributes();
             foreach (Attribute attribute in attributes)
             {
                 Func<object, string> textGenerator;
-                if (annotationTextGenerator.TryGetValue(attribute.GetType(), out textGenerator))
+                if (this.annotationTextGenerator.TryGetValue(attribute.GetType(), out textGenerator))
                 {
                     annotations.Add(
                         new ParameterAnnotation
@@ -312,7 +311,7 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
 
         private CollectionModelDescription GenerateCollectionModelDescription(Type modelType, Type elementType)
         {
-            ModelDescription collectionModelDescription = GetOrCreateModelDescription(elementType);
+            ModelDescription collectionModelDescription = this.GetOrCreateModelDescription(elementType);
             if (collectionModelDescription != null)
             {
                 return new CollectionModelDescription
@@ -328,33 +327,33 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
 
         private ModelDescription GenerateComplexTypeModelDescription(Type modelType)
         {
-            ComplexTypeModelDescription complexModelDescription = new ComplexTypeModelDescription
+            var complexModelDescription = new ComplexTypeModelDescription
             {
                 Name = ModelNameHelper.GetModelName(modelType),
                 ModelType = modelType,
-                Documentation = CreateDefaultDocumentation(modelType)
+                Documentation = this.CreateDefaultDocumentation(modelType)
             };
 
-            GeneratedModels.Add(complexModelDescription.Name, complexModelDescription);
-            bool hasDataContractAttribute = modelType.GetCustomAttribute<DataContractAttribute>() != null;
-            PropertyInfo[] properties = modelType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (PropertyInfo property in properties)
+            this.GeneratedModels.Add(complexModelDescription.Name, complexModelDescription);
+            var hasDataContractAttribute = modelType.GetCustomAttribute<DataContractAttribute>() != null;
+            var properties = modelType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (var property in properties)
             {
                 if (ShouldDisplayMember(property, hasDataContractAttribute))
                 {
-                    ParameterDescription propertyModel = new ParameterDescription
+                    var propertyModel = new ParameterDescription
                     {
                         Name = GetMemberName(property, hasDataContractAttribute)
                     };
 
-                    if (DocumentationProvider != null)
+                    if (this.DocumentationProvider != null)
                     {
-                        propertyModel.Documentation = DocumentationProvider.GetDocumentation(property);
+                        propertyModel.Documentation = this.DocumentationProvider.GetDocumentation(property);
                     }
 
-                    GenerateAnnotations(property, propertyModel);
+                    this.GenerateAnnotations(property, propertyModel);
                     complexModelDescription.Properties.Add(propertyModel);
-                    propertyModel.TypeDescription = GetOrCreateModelDescription(property.PropertyType);
+                    propertyModel.TypeDescription = this.GetOrCreateModelDescription(property.PropertyType);
                 }
             }
 
@@ -363,18 +362,18 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
             {
                 if (ShouldDisplayMember(field, hasDataContractAttribute))
                 {
-                    ParameterDescription propertyModel = new ParameterDescription
+                    var propertyModel = new ParameterDescription
                     {
                         Name = GetMemberName(field, hasDataContractAttribute)
                     };
 
-                    if (DocumentationProvider != null)
+                    if (this.DocumentationProvider != null)
                     {
-                        propertyModel.Documentation = DocumentationProvider.GetDocumentation(field);
+                        propertyModel.Documentation = this.DocumentationProvider.GetDocumentation(field);
                     }
 
                     complexModelDescription.Properties.Add(propertyModel);
-                    propertyModel.TypeDescription = GetOrCreateModelDescription(field.FieldType);
+                    propertyModel.TypeDescription = this.GetOrCreateModelDescription(field.FieldType);
                 }
             }
 
@@ -383,8 +382,8 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
 
         private DictionaryModelDescription GenerateDictionaryModelDescription(Type modelType, Type keyType, Type valueType)
         {
-            ModelDescription keyModelDescription = GetOrCreateModelDescription(keyType);
-            ModelDescription valueModelDescription = GetOrCreateModelDescription(valueType);
+            ModelDescription keyModelDescription = this.GetOrCreateModelDescription(keyType);
+            ModelDescription valueModelDescription = this.GetOrCreateModelDescription(valueType);
 
             return new DictionaryModelDescription
             {
@@ -397,40 +396,40 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
 
         private EnumTypeModelDescription GenerateEnumTypeModelDescription(Type modelType)
         {
-            EnumTypeModelDescription enumDescription = new EnumTypeModelDescription
+            var enumDescription = new EnumTypeModelDescription
             {
                 Name = ModelNameHelper.GetModelName(modelType),
                 ModelType = modelType,
-                Documentation = CreateDefaultDocumentation(modelType)
+                Documentation = this.CreateDefaultDocumentation(modelType)
             };
             bool hasDataContractAttribute = modelType.GetCustomAttribute<DataContractAttribute>() != null;
             foreach (FieldInfo field in modelType.GetFields(BindingFlags.Public | BindingFlags.Static))
             {
                 if (ShouldDisplayMember(field, hasDataContractAttribute))
                 {
-                    EnumValueDescription enumValue = new EnumValueDescription
+                    var enumValue = new EnumValueDescription
                     {
                         Name = field.Name,
                         Value = field.GetRawConstantValue().ToString()
                     };
-                    if (DocumentationProvider != null)
+                    if (this.DocumentationProvider != null)
                     {
-                        enumValue.Documentation = DocumentationProvider.GetDocumentation(field);
+                        enumValue.Documentation = this.DocumentationProvider.GetDocumentation(field);
                     }
 
                     enumDescription.Values.Add(enumValue);
                 }
             }
 
-            GeneratedModels.Add(enumDescription.Name, enumDescription);
+            this.GeneratedModels.Add(enumDescription.Name, enumDescription);
 
             return enumDescription;
         }
 
         private KeyValuePairModelDescription GenerateKeyValuePairModelDescription(Type modelType, Type keyType, Type valueType)
         {
-            ModelDescription keyModelDescription = GetOrCreateModelDescription(keyType);
-            ModelDescription valueModelDescription = GetOrCreateModelDescription(valueType);
+            ModelDescription keyModelDescription = this.GetOrCreateModelDescription(keyType);
+            ModelDescription valueModelDescription = this.GetOrCreateModelDescription(valueType);
 
             return new KeyValuePairModelDescription
             {
@@ -443,13 +442,13 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
 
         private ModelDescription GenerateSimpleTypeModelDescription(Type modelType)
         {
-            SimpleTypeModelDescription simpleModelDescription = new SimpleTypeModelDescription
+            var simpleModelDescription = new SimpleTypeModelDescription
             {
                 Name = ModelNameHelper.GetModelName(modelType),
                 ModelType = modelType,
-                Documentation = CreateDefaultDocumentation(modelType)
+                Documentation = this.CreateDefaultDocumentation(modelType)
             };
-            GeneratedModels.Add(simpleModelDescription.Name, simpleModelDescription);
+            this.GeneratedModels.Add(simpleModelDescription.Name, simpleModelDescription);
 
             return simpleModelDescription;
         }

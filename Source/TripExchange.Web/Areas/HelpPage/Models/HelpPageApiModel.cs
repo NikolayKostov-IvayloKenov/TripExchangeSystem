@@ -17,10 +17,10 @@ namespace TripExchange.Web.Areas.HelpPage.Models
         /// </summary>
         public HelpPageApiModel()
         {
-            UriParameters = new Collection<ParameterDescription>();
-            SampleRequests = new Dictionary<MediaTypeHeaderValue, object>();
-            SampleResponses = new Dictionary<MediaTypeHeaderValue, object>();
-            ErrorMessages = new Collection<string>();
+            this.UriParameters = new Collection<ParameterDescription>();
+            this.SampleRequests = new Dictionary<MediaTypeHeaderValue, object>();
+            this.SampleResponses = new Dictionary<MediaTypeHeaderValue, object>();
+            this.ErrorMessages = new Collection<string>();
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace TripExchange.Web.Areas.HelpPage.Models
         {
             get
             {
-                return GetParameterDescriptions(RequestModelDescription);
+                return GetParameterDescriptions(this.RequestModelDescription);
             }
         }
 
@@ -66,7 +66,7 @@ namespace TripExchange.Web.Areas.HelpPage.Models
         {
             get
             {
-                return GetParameterDescriptions(ResourceDescription);
+                return GetParameterDescriptions(this.ResourceDescription);
             }
         }
 
@@ -87,13 +87,13 @@ namespace TripExchange.Web.Areas.HelpPage.Models
 
         private static IList<ParameterDescription> GetParameterDescriptions(ModelDescription modelDescription)
         {
-            ComplexTypeModelDescription complexTypeModelDescription = modelDescription as ComplexTypeModelDescription;
+            var complexTypeModelDescription = modelDescription as ComplexTypeModelDescription;
             if (complexTypeModelDescription != null)
             {
                 return complexTypeModelDescription.Properties;
             }
 
-            CollectionModelDescription collectionModelDescription = modelDescription as CollectionModelDescription;
+            var collectionModelDescription = modelDescription as CollectionModelDescription;
             if (collectionModelDescription != null)
             {
                 complexTypeModelDescription = collectionModelDescription.ElementDescription as ComplexTypeModelDescription;

@@ -21,10 +21,10 @@ namespace TripExchange.Web.Areas.HelpPage
                 throw new ArgumentNullException("mediaType");
             }
 
-            ActionName = String.Empty;
-            ControllerName = String.Empty;
-            MediaType = mediaType;
-            ParameterNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            this.ActionName = string.Empty;
+            this.ControllerName = string.Empty;
+            this.MediaType = mediaType;
+            this.ParameterNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace TripExchange.Web.Areas.HelpPage
                 throw new ArgumentNullException("type");
             }
 
-            ParameterType = type;
+            this.ParameterType = type;
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace TripExchange.Web.Areas.HelpPage
                 throw new ArgumentNullException("mediaType");
             }
 
-            MediaType = mediaType;
+            this.MediaType = mediaType;
         }
 
         /// <summary>
@@ -135,39 +135,39 @@ namespace TripExchange.Web.Areas.HelpPage
 
         public override bool Equals(object obj)
         {
-            HelpPageSampleKey otherKey = obj as HelpPageSampleKey;
+            var otherKey = obj as HelpPageSampleKey;
             if (otherKey == null)
             {
                 return false;
             }
 
-            return String.Equals(ControllerName, otherKey.ControllerName, StringComparison.OrdinalIgnoreCase) &&
-                String.Equals(ActionName, otherKey.ActionName, StringComparison.OrdinalIgnoreCase) &&
-                (MediaType == otherKey.MediaType || (MediaType != null && MediaType.Equals(otherKey.MediaType))) &&
-                ParameterType == otherKey.ParameterType &&
-                SampleDirection == otherKey.SampleDirection &&
-                ParameterNames.SetEquals(otherKey.ParameterNames);
+            return string.Equals(this.ControllerName, otherKey.ControllerName, StringComparison.OrdinalIgnoreCase)
+                   && string.Equals(this.ActionName, otherKey.ActionName, StringComparison.OrdinalIgnoreCase)
+                   && (this.MediaType == otherKey.MediaType
+                       || (this.MediaType != null && this.MediaType.Equals(otherKey.MediaType)))
+                   && this.ParameterType == otherKey.ParameterType && this.SampleDirection == otherKey.SampleDirection
+                   && this.ParameterNames.SetEquals(otherKey.ParameterNames);
         }
 
         public override int GetHashCode()
         {
-            int hashCode = ControllerName.ToUpperInvariant().GetHashCode() ^ ActionName.ToUpperInvariant().GetHashCode();
-            if (MediaType != null)
+            int hashCode = this.ControllerName.ToUpperInvariant().GetHashCode() ^ this.ActionName.ToUpperInvariant().GetHashCode();
+            if (this.MediaType != null)
             {
-                hashCode ^= MediaType.GetHashCode();
+                hashCode ^= this.MediaType.GetHashCode();
             }
 
-            if (SampleDirection != null)
+            if (this.SampleDirection != null)
             {
-                hashCode ^= SampleDirection.GetHashCode();
+                hashCode ^= this.SampleDirection.GetHashCode();
             }
 
-            if (ParameterType != null)
+            if (this.ParameterType != null)
             {
-                hashCode ^= ParameterType.GetHashCode();
+                hashCode ^= this.ParameterType.GetHashCode();
             }
 
-            foreach (string parameterName in ParameterNames)
+            foreach (string parameterName in this.ParameterNames)
             {
                 hashCode ^= parameterName.ToUpperInvariant().GetHashCode();
             }

@@ -26,7 +26,7 @@ namespace TripExchange.Web.Areas.HelpPage
         public override bool Equals(object obj)
         {
             var other = obj as ImageSample;
-            return other != null && Src == other.Src;
+            return other != null && this.Src == other.Src;
         }
 
         public override int GetHashCode()
