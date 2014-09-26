@@ -1,20 +1,21 @@
-using System;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
-using System.Web.Http.Controllers;
-using System.Web.Http.Description;
-using System.Xml.XPath;
-using TripExchange.Web.Areas.HelpPage.ModelDescriptions;
-
 namespace TripExchange.Web.Areas.HelpPage
 {
+    using System;
+    using System.Globalization;
+    using System.Linq;
+    using System.Reflection;
+    using System.Web.Http.Controllers;
+    using System.Web.Http.Description;
+    using System.Xml.XPath;
+
+    using TripExchange.Web.Areas.HelpPage.ModelDescriptions;
+
     /// <summary>
     /// A custom <see cref="IDocumentationProvider"/> that reads the API documentation from an XML documentation file.
     /// </summary>
     public class XmlDocumentationProvider : IDocumentationProvider, IModelDocumentationProvider
     {
-        private XPathNavigator _documentNavigator;
+        private XPathNavigator documentNavigator;
         private const string TypeExpression = "/doc/members/member[@name='T:{0}']";
         private const string MethodExpression = "/doc/members/member[@name='M:{0}']";
         private const string PropertyExpression = "/doc/members/member[@name='P:{0}']";
@@ -33,7 +34,7 @@ namespace TripExchange.Web.Areas.HelpPage
             }
 
             var xpath = new XPathDocument(documentPath);
-            _documentNavigator = xpath.CreateNavigator();
+            documentNavigator = xpath.CreateNavigator();
         }
 
         public string GetDocumentation(HttpControllerDescriptor controllerDescriptor)
@@ -79,7 +80,7 @@ namespace TripExchange.Web.Areas.HelpPage
             string memberName = String.Format(CultureInfo.InvariantCulture, "{0}.{1}", GetTypeName(member.DeclaringType), member.Name);
             string expression = member.MemberType == MemberTypes.Field ? FieldExpression : PropertyExpression;
             string selectExpression = String.Format(CultureInfo.InvariantCulture, expression, memberName);
-            XPathNavigator propertyNode = _documentNavigator.SelectSingleNode(selectExpression);
+            XPathNavigator propertyNode = documentNavigator.SelectSingleNode(selectExpression);
             return GetTagValue(propertyNode, "summary");
         }
 
@@ -95,7 +96,7 @@ namespace TripExchange.Web.Areas.HelpPage
             if (reflectedActionDescriptor != null)
             {
                 string selectExpression = String.Format(CultureInfo.InvariantCulture, MethodExpression, GetMemberName(reflectedActionDescriptor.MethodInfo));
-                return _documentNavigator.SelectSingleNode(selectExpression);
+                return documentNavigator.SelectSingleNode(selectExpression);
             }
 
             return null;
@@ -132,7 +133,7 @@ namespace TripExchange.Web.Areas.HelpPage
         {
             string controllerTypeName = GetTypeName(type);
             string selectExpression = String.Format(CultureInfo.InvariantCulture, TypeExpression, controllerTypeName);
-            return _documentNavigator.SelectSingleNode(selectExpression);
+            return documentNavigator.SelectSingleNode(selectExpression);
         }
 
         private static string GetTypeName(Type type)

@@ -270,18 +270,17 @@
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
 
-                ClaimsIdentity oAuthIdentity =
-                    await user.GenerateUserIdentityAsync(UserManager, OAuthDefaults.AuthenticationType);
-                ClaimsIdentity cookieIdentity =
+                var oauthIdentity = await user.GenerateUserIdentityAsync(UserManager, OAuthDefaults.AuthenticationType);
+                var cookieIdentity =
                     await user.GenerateUserIdentityAsync(UserManager, CookieAuthenticationDefaults.AuthenticationType);
 
                 AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
-                Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
+                Authentication.SignIn(properties, oauthIdentity, cookieIdentity);
             }
             else
             {
                 IEnumerable<Claim> claims = externalLogin.GetClaims();
-                ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
+                var identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
                 Authentication.SignIn(identity);
             }
 
@@ -300,8 +299,8 @@
 
             if (generateState)
             {
-                const int strengthInBits = 256;
-                state = RandomOAuthStateGenerator.Generate(strengthInBits);
+                const int StrengthInBits = 256;
+                state = RandomOAuthStateGenerator.Generate(StrengthInBits);
             }
             else
             {
@@ -503,14 +502,14 @@
 
             public static string Generate(int strengthInBits)
             {
-                const int bitsPerByte = 8;
+                const int BitsPerByte = 8;
 
-                if (strengthInBits % bitsPerByte != 0)
+                if (strengthInBits % BitsPerByte != 0)
                 {
                     throw new ArgumentException("strengthInBits must be evenly divisible by 8.", "strengthInBits");
                 }
 
-                int strengthInBytes = strengthInBits / bitsPerByte;
+                int strengthInBytes = strengthInBits / BitsPerByte;
 
                 byte[] data = new byte[strengthInBytes];
                 random.GetBytes(data);

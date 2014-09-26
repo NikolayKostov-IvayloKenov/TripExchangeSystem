@@ -315,7 +315,7 @@ namespace TripExchange.Web.Areas.HelpPage
                     }
                     else
                     {
-                        Debug.Assert(parameterDescriptor == null);
+                        Debug.Assert(parameterDescriptor == null, "parameterDescriptor should be null");
 
                         // If parameterDescriptor is null, this is an undeclared route parameter which only occurs
                         // when source is FromUri. Ignored in request model and among resource parameters but listed

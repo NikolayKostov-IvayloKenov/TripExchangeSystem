@@ -20,7 +20,7 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
     public class ModelDescriptionGenerator
     {
         // Modify this to support more data annotation attributes.
-        private readonly IDictionary<Type, Func<object, string>> AnnotationTextGenerator = new Dictionary<Type, Func<object, string>>
+        private readonly IDictionary<Type, Func<object, string>> annotationTextGenerator = new Dictionary<Type, Func<object, string>>
         {
             { typeof(RequiredAttribute), a => "Required" },
             { typeof(RangeAttribute), a =>
@@ -62,7 +62,7 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
         };
 
         // Modify this to add more default documentations.
-        private readonly IDictionary<Type, string> DefaultTypeDocumentation = new Dictionary<Type, string>
+        private readonly IDictionary<Type, string> defaultTypeDocumentation = new Dictionary<Type, string>
         {
             { typeof(Int16), "integer" },
             { typeof(Int32), "integer" },
@@ -85,7 +85,7 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
             { typeof(Boolean), "boolean" },
         };
 
-        private Lazy<IModelDocumentationProvider> _documentationProvider;
+        private Lazy<IModelDocumentationProvider> documentationProvider;
 
         public ModelDescriptionGenerator(HttpConfiguration config)
         {
@@ -94,7 +94,7 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
                 throw new ArgumentNullException("config");
             }
 
-            _documentationProvider = new Lazy<IModelDocumentationProvider>(() => config.Services.GetDocumentationProvider() as IModelDocumentationProvider);
+            documentationProvider = new Lazy<IModelDocumentationProvider>(() => config.Services.GetDocumentationProvider() as IModelDocumentationProvider);
             GeneratedModels = new Dictionary<string, ModelDescription>(StringComparer.OrdinalIgnoreCase);
         }
 
@@ -104,7 +104,7 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
         {
             get
             {
-                return _documentationProvider.Value;
+                return documentationProvider.Value;
             }
         }
 
@@ -140,7 +140,7 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
                 return modelDescription;
             }
 
-            if (DefaultTypeDocumentation.ContainsKey(modelType))
+            if (defaultTypeDocumentation.ContainsKey(modelType))
             {
                 return GenerateSimpleTypeModelDescription(modelType);
             }
@@ -254,7 +254,7 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
         private string CreateDefaultDocumentation(Type type)
         {
             string documentation;
-            if (DefaultTypeDocumentation.TryGetValue(type, out documentation))
+            if (defaultTypeDocumentation.TryGetValue(type, out documentation))
             {
                 return documentation;
             }
@@ -275,7 +275,7 @@ namespace TripExchange.Web.Areas.HelpPage.ModelDescriptions
             foreach (Attribute attribute in attributes)
             {
                 Func<object, string> textGenerator;
-                if (AnnotationTextGenerator.TryGetValue(attribute.GetType(), out textGenerator))
+                if (annotationTextGenerator.TryGetValue(attribute.GetType(), out textGenerator))
                 {
                     annotations.Add(
                         new ParameterAnnotation

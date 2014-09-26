@@ -14,7 +14,7 @@ namespace TripExchange.Web.Areas.HelpPage
     public class ObjectGenerator
     {
         internal const int DefaultCollectionSize = 2;
-        private readonly SimpleTypeObjectGenerator SimpleObjectGenerator = new SimpleTypeObjectGenerator();
+        private readonly SimpleTypeObjectGenerator simpleObjectGenerator = new SimpleTypeObjectGenerator();
 
         /// <summary>
         /// Generates an object for a given type. The type needs to be public, have a public default constructor and settable public properties/fields. Currently it supports the following types:
@@ -42,7 +42,7 @@ namespace TripExchange.Web.Areas.HelpPage
             {
                 if (SimpleTypeObjectGenerator.CanGenerateObject(type))
                 {
-                    return SimpleObjectGenerator.GenerateObject(type);
+                    return simpleObjectGenerator.GenerateObject(type);
                 }
 
                 if (type.IsArray)
@@ -402,7 +402,7 @@ namespace TripExchange.Web.Areas.HelpPage
 
         private class SimpleTypeObjectGenerator
         {
-            private long _index = 0;
+            private long index = 0;
             private static readonly Dictionary<Type, Func<long, object>> DefaultGenerators = InitializeGenerators();
 
             [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "These are simple type factories and cannot be split up.")]
@@ -456,7 +456,7 @@ namespace TripExchange.Web.Areas.HelpPage
 
             public object GenerateObject(Type type)
             {
-                return DefaultGenerators[type](++_index);
+                return DefaultGenerators[type](++index);
             }
         }
     }
