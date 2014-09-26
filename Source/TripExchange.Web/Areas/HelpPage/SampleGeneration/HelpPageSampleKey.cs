@@ -1,10 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Net.Http.Headers;
-
 namespace TripExchange.Web.Areas.HelpPage
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Net.Http.Headers;
+
     /// <summary>
     /// This is used to identify the place where the sample should be applied.
     /// </summary>
@@ -153,14 +153,17 @@ namespace TripExchange.Web.Areas.HelpPage
             {
                 hashCode ^= MediaType.GetHashCode();
             }
+
             if (SampleDirection != null)
             {
                 hashCode ^= SampleDirection.GetHashCode();
             }
+
             if (ParameterType != null)
             {
                 hashCode ^= ParameterType.GetHashCode();
             }
+
             foreach (string parameterName in ParameterNames)
             {
                 hashCode ^= parameterName.ToUpperInvariant().GetHashCode();

@@ -1,40 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
-using System.Web.Http.ModelBinding;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.OAuth;
-using TripExchange.Web.Models;
-using TripExchange.Web.Providers;
-using TripExchange.Web.Results;
-
-namespace TripExchange.Web.Controllers
+﻿namespace TripExchange.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Net.Http;
+    using System.Security.Claims;
+    using System.Security.Cryptography;
+    using System.Threading.Tasks;
+    using System.Web;
+    using System.Web.Http;
+
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.Owin.Security;
+    using Microsoft.Owin.Security.Cookies;
+    using Microsoft.Owin.Security.OAuth;
+
+    using TripExchange.Web.Models;
+    using TripExchange.Web.Providers;
+    using TripExchange.Web.Results;
+
     [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
         private const string LocalLoginProvider = "Local";
+
         private ApplicationUserManager _userManager;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager,
+        public AccountController(
+            ApplicationUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
-            UserManager = userManager;
-            AccessTokenFormat = accessTokenFormat;
+            this.UserManager = userManager;
+            this.AccessTokenFormat = accessTokenFormat;
         }
 
         public ApplicationUserManager UserManager
@@ -43,6 +46,7 @@ namespace TripExchange.Web.Controllers
             {
                 return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
+
             private set
             {
                 _userManager = value;
@@ -59,11 +63,11 @@ namespace TripExchange.Web.Controllers
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
 
             return new UserInfoViewModel
-            {
-                Email = User.Identity.GetUserName(),
-                HasRegistered = externalLogin == null,
-                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
-            };
+                       {
+                           Email = User.Identity.GetUserName(),
+                           HasRegistered = externalLogin == null,
+                           LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
+                       };
         }
 
         // POST api/Account/Logout
@@ -89,29 +93,27 @@ namespace TripExchange.Web.Controllers
 
             foreach (IdentityUserLogin linkedAccount in user.Logins)
             {
-                logins.Add(new UserLoginInfoViewModel
-                {
-                    LoginProvider = linkedAccount.LoginProvider,
-                    ProviderKey = linkedAccount.ProviderKey
-                });
+                logins.Add(
+                    new UserLoginInfoViewModel
+                        {
+                            LoginProvider = linkedAccount.LoginProvider,
+                            ProviderKey = linkedAccount.ProviderKey
+                        });
             }
 
             if (user.PasswordHash != null)
             {
-                logins.Add(new UserLoginInfoViewModel
-                {
-                    LoginProvider = LocalLoginProvider,
-                    ProviderKey = user.UserName,
-                });
+                logins.Add(
+                    new UserLoginInfoViewModel { LoginProvider = LocalLoginProvider, ProviderKey = user.UserName, });
             }
 
             return new ManageInfoViewModel
-            {
-                LocalLoginProvider = LocalLoginProvider,
-                Email = user.UserName,
-                Logins = logins,
-                ExternalLoginProviders = GetExternalLogins(returnUrl, generateState)
-            };
+                       {
+                           LocalLoginProvider = LocalLoginProvider,
+                           Email = user.UserName,
+                           Logins = logins,
+                           ExternalLoginProviders = GetExternalLogins(returnUrl, generateState)
+                       };
         }
 
         // POST api/Account/ChangePassword
@@ -123,9 +125,9 @@ namespace TripExchange.Web.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
-                model.NewPassword);
-            
+            IdentityResult result =
+                await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -166,9 +168,9 @@ namespace TripExchange.Web.Controllers
 
             AuthenticationTicket ticket = AccessTokenFormat.Unprotect(model.ExternalAccessToken);
 
-            if (ticket == null || ticket.Identity == null || (ticket.Properties != null
-                && ticket.Properties.ExpiresUtc.HasValue
-                && ticket.Properties.ExpiresUtc.Value < DateTimeOffset.UtcNow))
+            if (ticket == null || ticket.Identity == null
+                || (ticket.Properties != null && ticket.Properties.ExpiresUtc.HasValue
+                    && ticket.Properties.ExpiresUtc.Value < DateTimeOffset.UtcNow))
             {
                 return BadRequest("External login failure.");
             }
@@ -180,8 +182,11 @@ namespace TripExchange.Web.Controllers
                 return BadRequest("The external login is already associated with an account.");
             }
 
-            IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId(),
-                new UserLoginInfo(externalData.LoginProvider, externalData.ProviderKey));
+            IdentityResult result =
+                await
+                UserManager.AddLoginAsync(
+                    User.Identity.GetUserId(),
+                    new UserLoginInfo(externalData.LoginProvider, externalData.ProviderKey));
 
             if (!result.Succeeded)
             {
@@ -208,8 +213,11 @@ namespace TripExchange.Web.Controllers
             }
             else
             {
-                result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(),
-                    new UserLoginInfo(model.LoginProvider, model.ProviderKey));
+                result =
+                    await
+                    UserManager.RemoveLoginAsync(
+                        User.Identity.GetUserId(),
+                        new UserLoginInfo(model.LoginProvider, model.ProviderKey));
             }
 
             if (!result.Succeeded)
@@ -250,19 +258,19 @@ namespace TripExchange.Web.Controllers
                 return new ChallengeResult(provider, this);
             }
 
-            ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
-                externalLogin.ProviderKey));
+            ApplicationUser user =
+                await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider, externalLogin.ProviderKey));
 
             bool hasRegistered = user != null;
 
             if (hasRegistered)
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                
-                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
-                    OAuthDefaults.AuthenticationType);
-                ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
-                    CookieAuthenticationDefaults.AuthenticationType);
+
+                ClaimsIdentity oAuthIdentity =
+                    await user.GenerateUserIdentityAsync(UserManager, OAuthDefaults.AuthenticationType);
+                ClaimsIdentity cookieIdentity =
+                    await user.GenerateUserIdentityAsync(UserManager, CookieAuthenticationDefaults.AuthenticationType);
 
                 AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
                 Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
@@ -300,18 +308,25 @@ namespace TripExchange.Web.Controllers
             foreach (AuthenticationDescription description in descriptions)
             {
                 ExternalLoginViewModel login = new ExternalLoginViewModel
-                {
-                    Name = description.Caption,
-                    Url = Url.Route("ExternalLogin", new
-                    {
-                        provider = description.AuthenticationType,
-                        response_type = "token",
-                        client_id = Startup.PublicClientId,
-                        redirect_uri = new Uri(Request.RequestUri, returnUrl).AbsoluteUri,
-                        state = state
-                    }),
-                    State = state
-                };
+                                                   {
+                                                       Name = description.Caption,
+                                                       Url =
+                                                           Url.Route(
+                                                               "ExternalLogin",
+                                                               new
+                                                                   {
+                                                                       provider =
+                                                           description.AuthenticationType,
+                                                                       response_type = "token",
+                                                                       client_id =
+                                                           Startup.PublicClientId,
+                                                                       redirect_uri =
+                                                           new Uri(Request.RequestUri, returnUrl)
+                                                           .AbsoluteUri,
+                                                                       state = state
+                                                                   }),
+                                                       State = state
+                                                   };
                 logins.Add(login);
             }
 
@@ -368,7 +383,7 @@ namespace TripExchange.Web.Controllers
             result = await UserManager.AddLoginAsync(user.Id, info.Login);
             if (!result.Succeeded)
             {
-                return GetErrorResult(result); 
+                return GetErrorResult(result);
             }
             return Ok();
         }
@@ -387,7 +402,10 @@ namespace TripExchange.Web.Controllers
 
         private IAuthenticationManager Authentication
         {
-            get { return Request.GetOwinContext().Authentication; }
+            get
+            {
+                return Request.GetOwinContext().Authentication;
+            }
         }
 
         private IHttpActionResult GetErrorResult(IdentityResult result)
@@ -422,7 +440,9 @@ namespace TripExchange.Web.Controllers
         private class ExternalLoginData
         {
             public string LoginProvider { get; set; }
+
             public string ProviderKey { get; set; }
+
             public string UserName { get; set; }
 
             public IList<Claim> GetClaims()
@@ -459,17 +479,17 @@ namespace TripExchange.Web.Controllers
                 }
 
                 return new ExternalLoginData
-                {
-                    LoginProvider = providerKeyClaim.Issuer,
-                    ProviderKey = providerKeyClaim.Value,
-                    UserName = identity.FindFirstValue(ClaimTypes.Name)
-                };
+                           {
+                               LoginProvider = providerKeyClaim.Issuer,
+                               ProviderKey = providerKeyClaim.Value,
+                               UserName = identity.FindFirstValue(ClaimTypes.Name)
+                           };
             }
         }
 
         private static class RandomOAuthStateGenerator
         {
-            private static RandomNumberGenerator _random = new RNGCryptoServiceProvider();
+            private static RandomNumberGenerator random = new RNGCryptoServiceProvider();
 
             public static string Generate(int strengthInBits)
             {
@@ -483,7 +503,7 @@ namespace TripExchange.Web.Controllers
                 int strengthInBytes = strengthInBits / bitsPerByte;
 
                 byte[] data = new byte[strengthInBytes];
-                _random.GetBytes(data);
+                random.GetBytes(data);
                 return HttpServerUtility.UrlTokenEncode(data);
             }
         }
