@@ -13,6 +13,8 @@ namespace TripExchange.Web
 {
     public partial class Startup
     {
+        private const string TokenEndpointPath = "/api/users/login";
+
         static Startup()
         {
             PublicClientId = "self";
@@ -21,7 +23,7 @@ namespace TripExchange.Web
 
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
-                TokenEndpointPath = new PathString("/Token"),
+                TokenEndpointPath = new PathString(TokenEndpointPath),
                 Provider = new ApplicationOAuthProvider(PublicClientId),
                 AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),

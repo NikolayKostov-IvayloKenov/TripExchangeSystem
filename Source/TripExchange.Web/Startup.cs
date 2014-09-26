@@ -21,7 +21,7 @@ namespace TripExchange.Web
                 {
                     PolicyResolver = request =>
                     {
-                        if (request.Path.StartsWithSegments(new PathString("/token")))
+                        if (request.Path.StartsWithSegments(new PathString(TokenEndpointPath)))
                         {
                             return Task.FromResult(new CorsPolicy { AllowAnyOrigin = true });
                         }
