@@ -6,7 +6,7 @@
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "SPA Exam 2014 API";
 
             return this.View();
         }
