@@ -10,6 +10,10 @@
     {
         public string Id { get; set; }
 
+        public string DriverId { get; set; }
+
+        public string DriverName { get; set; }
+
         public string From { get; set; }
 
         public string To { get; set; }
@@ -27,6 +31,8 @@
                 new TripViewModel
                     {
                         Id = trip.Id.ToString(),
+                        DriverId = trip.DriverId,
+                        DriverName = trip.Driver.UserName,
                         From = trip.From.Name,
                         To = trip.To.Name,
                         DepartureDate = trip.DepartureTime,

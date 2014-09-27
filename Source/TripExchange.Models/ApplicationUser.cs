@@ -11,10 +11,12 @@
     public class ApplicationUser : IdentityUser
     {
         private ICollection<Trip> trips;
+        private ICollection<Trip> tripsWhereDriver;
 
         public ApplicationUser()
         {
             this.trips = new HashSet<Trip>();
+            this.tripsWhereDriver = new HashSet<Trip>();
         }
 
         public bool IsDriver { get; set; }
@@ -25,6 +27,12 @@
         {
             get { return this.trips; }
             set { this.trips = value; }
+        }
+
+        public virtual ICollection<Trip> TripsWhereDriver
+        {
+            get { return this.tripsWhereDriver; }
+            set { this.tripsWhereDriver = value; }
         }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)

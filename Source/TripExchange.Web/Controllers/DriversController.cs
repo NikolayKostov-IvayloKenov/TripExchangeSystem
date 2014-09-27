@@ -79,6 +79,8 @@
                                         new TripViewModel
                                             {
                                                 Id = trip.Id.ToString(),
+                                                DriverId = trip.DriverId,
+                                                DriverName = trip.Driver.UserName,
                                                 From = trip.From.Name,
                                                 To = trip.To.Name,
                                                 DepartureDate = trip.DepartureTime,

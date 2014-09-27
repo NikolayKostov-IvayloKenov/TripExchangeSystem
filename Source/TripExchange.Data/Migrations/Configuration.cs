@@ -87,7 +87,11 @@ namespace TripExchange.Data.Migrations
             return cities;
         }
 
-        private void SeedTrips(ApplicationDbContext context, Random random, List<ApplicationUser> users, List<City> cities)
+        private void SeedTrips(
+            ApplicationDbContext context,
+            Random random,
+            List<ApplicationUser> users,
+            IReadOnlyList<City> cities)
         {
             const int NumberOfTrips = 200;
             for (var i = -NumberOfTrips / 2; i <= NumberOfTrips / 2; i++)
@@ -99,18 +103,23 @@ namespace TripExchange.Data.Migrations
                     secondCity = cities[random.Next(0, cities.Count)];
                 }
 
+                users = this.Shuffle(users, random).ToList();
+
                 var trip = new Trip
                                {
                                    DepartureTime = DateTime.Now.AddDays(i),
                                    AvailableSeats = 5,
                                    From = firstCity,
-                                   To = secondCity
+                                   To = secondCity,
                                };
 
-                for (var j = 0; j < random.Next(0, 5); j++)
+                for (var j = 0; j < random.Next(0, 4); j++)
                 {
-                    trip.Passengers.Add(users[random.Next(0, users.Count)]);
+                    trip.Passengers.Add(users[j]);
                 }
+
+                trip.Driver = users.FirstOrDefault(x => x.IsDriver && !trip.Passengers.Contains(x));
+                trip.Passengers.Add(trip.Driver);
 
                 context.Trips.Add(trip);
             }
@@ -128,7 +137,13 @@ namespace TripExchange.Data.Migrations
                 const string Password = "123456";
                 var isDriver = i % 2 == 0;
                 var car = isDriver ? string.Format("car {0}", i) : null;
-                var user = new ApplicationUser { UserName = userName, Email = userName, IsDriver = isDriver, Car = car, };
+                var user = new ApplicationUser
+                               {
+                                   UserName = userName,
+                                   Email = userName,
+                                   IsDriver = isDriver,
+                                   Car = car,
+                               };
 
                 var identityResult = manager.Create(user, Password);
                 if (identityResult.Succeeded)
@@ -138,6 +153,19 @@ namespace TripExchange.Data.Migrations
             }
 
             return users;
+        }
+
+        private IList<T> Shuffle<T>(IList<T> list, Random randomGenerator)
+        {
+            for (var i = 0; i < list.Count; i++)
+            {
+                var swapIndex = randomGenerator.Next(list.Count);
+                var currentElement = list[i];
+                list[i] = list[swapIndex];
+                list[swapIndex] = currentElement;
+            }
+
+            return list;
         }
     }
 }

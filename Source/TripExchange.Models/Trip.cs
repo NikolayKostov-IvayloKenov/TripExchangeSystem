@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public class Trip
     {
@@ -14,6 +15,10 @@
         }
 
         public Guid Id { get; set; }
+
+        public string DriverId { get; set; }
+
+        public virtual ApplicationUser Driver { get; set; }
 
         public DateTime DepartureTime { get; set; }
 
