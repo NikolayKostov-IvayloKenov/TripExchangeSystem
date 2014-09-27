@@ -9,6 +9,9 @@
 		"b69f8bf0-c8db-feff-8f9f-cb589c63ef35",
 		"c71c7542-f386-9077-01fd-1425e593c750",
 		"67b5c13e-8768-5c49-5c6a-83e596892daf",
+		"3616c975-d769-f5f4-1983-443720f43b79",
+		"3d34df44-85d4-bf94-c864-df4e766d5890",
+		"ba8f72c7-e26b-978b-37cc-e28d01fb9c46",
 		"a05af9d3-5aa8-3750-3e97-a7a3cb362833",
 		"c0fff7ed-e19c-053c-dea4-d999200cb538",
 		"2f0b0540-ca5e-c114-ed00-02d567ca5a54"
@@ -50,6 +53,63 @@
 			"name": "UserInfo",
 			"description": "",
 			"collectionId": "fd637dc1-73c7-3277-405f-cb11ba634d21",
+			"synced": false
+		},
+		{
+			"id": "3616c975-d769-f5f4-1983-443720f43b79",
+			"headers": "Authorization: Bearer FYPg0nUWocMHf-fhGmoQqQJHrNYmCG-CLJc6fBlnB51W4Ib0ZHO23NxIYmRUnFCdOr-dzxcBlZy1VMAY_C0klo1yfJ6KGpqGTRSxPjyniViBtowLUwjnaYMKeTMH2amAh7KEVrcUfeeyJKCVdTZ_J6gKOXfEcpxcEv_V757MCb_mtxfjLOdZhxIMbayoO--qzTcCRtoCkq6cILpLGCW38lnfMYk04WQV-AXjeKMSJEsJlMma4dLIjb1OpEUOEIUmuCPzR4vW1jnPOt_QqrBIrPfvnOnJcBXNxCZ6ROMA_9n3hDVV1UD0YTmEnxi3mA2NqbLXsU4P5ncZOJxzu5acL5mwZPO3V_OUCLt1mjnn-7TbkKQ29Sjr7CmaXWuGiqPWUyo2SDCMIiyb6skkOp38OC3shj-kNTp18welZ_eaIinJOMB9bbP1age2Utuw4BWIalnO0HAduChEUuwsSZ3egHfKmwb6zY1HlpCDbW0JcVk\n",
+			"url": "http://localhost:1337/api/trips",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [
+				{
+					"key": "from",
+					"value": "Sofia",
+					"type": "text"
+				},
+				{
+					"key": "to",
+					"value": "Kyustendil",
+					"type": "text"
+				},
+				{
+					"key": "availableSeats",
+					"value": "4",
+					"type": "text"
+				},
+				{
+					"key": "departureTime",
+					"value": "2014-09-29 13:37:00",
+					"type": "text"
+				}
+			],
+			"dataMode": "urlencoded",
+			"version": 2,
+			"tests": "",
+			"time": 1411829919703,
+			"name": "Add trip",
+			"description": "",
+			"collectionId": "fd637dc1-73c7-3277-405f-cb11ba634d21",
+			"responses": [],
+			"synced": false
+		},
+		{
+			"id": "3d34df44-85d4-bf94-c864-df4e766d5890",
+			"headers": "Authorization: Bearer J30sYu-jmuBBAu0Mt-_reOtIWVO02xjpQE_O82SWkFqXjQxu-Pp5B2bNhvy_spfKMarEFVIzWFCXu9n84kYMtMkc6cGUufZhZPgTb_lA1mEMRdveuggyuUM9dCEjwzQxl_tlNe8mmeXpYvTtfym_kW954PSMQ91TFBrCpGPQEFol5TDCwM6PY6XtV_zIH3syDF7G__9VPNKHFbO2FXENHcsTlbGayvDK-EMtRK1ZxlSMPypQnrOMYCv6exFsAfORUgnbI4Mt_IC5QXHxZ862RJjxv6Y53QB2yJ12biAsGYwnxEZNTNFWZxQdJx-9y7UFMONnJ0LpELf2_s4yt2UKvuTzkHsXCJUZvdJExZSqW-YaKB2fYhqXzrjpvtbg0npZd5LfTSdIUVuH6h6eMWVkpKCsQ-XohYu3Lnu6IiVvcfKzDbfiBwBJh-qe3OWayF9iFfM5rx47iq0vehQEi6_1lycjtTPmVf8lq5lyYqIxNlY\n",
+			"url": "http://localhost:1337/api/trips/7362e399-d051-42bd-95a0-109a2673dfd5",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"time": 1411832282991,
+			"name": "Get trip by Id",
+			"description": "",
+			"collectionId": "fd637dc1-73c7-3277-405f-cb11ba634d21",
+			"responses": [],
 			"synced": false
 		},
 		{
@@ -131,6 +191,24 @@
 			"name": "Logout",
 			"description": "",
 			"collectionId": "fd637dc1-73c7-3277-405f-cb11ba634d21",
+			"synced": false
+		},
+		{
+			"id": "ba8f72c7-e26b-978b-37cc-e28d01fb9c46",
+			"headers": "Authorization: Bearer yqszHWlshrhjdiyRdM6nJ9l3AE-v0Uqx7W2MNujO1vbuo63aw3Z8XulL90ZNYQoexZDc4wjRFEhPqZgUU-DQxTvi5QUANaudo-ZugFelqzFwyunbNBSvjlnyLFqz00q26wUwrK2cbMfEAmO-AjIU99L9sei9_2GzXghg-tR4u2mn59kioQ0KQkw9vtDb8fne_I_4T44Gyc9d3FjUDQm1AjkYwzWM3xtfw7t7Vx0ZiImQVZPRTZLq7Nadds95fKmX9NmrUhZcDZ1xxwVjJyKN4wwTHewbU2hDh72jL3K2Ab8sS9eenElht3x6whuO0Qr7m5IY3y7p7TQKXeJIJgVYDUkvrT8HvFX87hsUbk92NaifTo4TpBS1Spy5j4N0wJK7sQ4sddvAdHayE8HqAssprmwNgMPybcDECX3TXjK55PtiZkxkMoSuWib8K-mwcDhr_bgvqqylq0BL3IDUIOLpBnGPz3AZY5IjiL5xjl6IeKI\n",
+			"url": "http://localhost:1337/api/trips/7362e399-d051-42bd-95a0-109a2673dfd5",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "PUT",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "",
+			"time": 1411832581811,
+			"name": "Join trip",
+			"description": "",
+			"collectionId": "fd637dc1-73c7-3277-405f-cb11ba634d21",
+			"responses": [],
 			"synced": false
 		},
 		{

@@ -23,6 +23,7 @@
         }
 
         [Authorize]
+        [HttpGet]
         public IHttpActionResult Get(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
@@ -45,6 +46,60 @@
             }
 
             return this.Ok(tripData);
+        }
+
+        [Authorize]
+        [HttpPut]
+        public IHttpActionResult Put(string id)
+        {
+            var currentUserId = User.Identity.GetUserId();
+            var currentUser = this.Data.Users.All().FirstOrDefault(x => x.Id == currentUserId);
+            if (currentUser == null)
+            {
+                return this.BadRequest("Invalid user token! Please login again!");
+            }
+
+            var tripId = new Guid(id);
+            var trip =
+                this.Data.Trips.All()
+                    .Select(
+                        x =>
+                        new
+                            {
+                                x.Id,
+                                x.DepartureTime,
+                                x.AvailableSeats,
+                                PassengersCount = x.Passengers.Count,
+                                IsCurrentUserInTheTrip = x.Passengers.Any(user => user.Id == currentUserId)
+                            })
+                    .FirstOrDefault(x => x.Id == tripId);
+
+            if (trip == null)
+            {
+                return this.BadRequest("Trip with given id not found!");
+            }
+
+            if (trip.DepartureTime <= DateTime.Now)
+            {
+                return this.BadRequest("Selected trip's departure date is in the past.");
+            }
+
+            if (trip.IsCurrentUserInTheTrip)
+            {
+                return this.BadRequest("You are already part of the trip!");
+            }
+
+            var tripRemainingSeats = trip.AvailableSeats - trip.PassengersCount;
+            if (tripRemainingSeats < 1)
+            {
+                return this.BadRequest("There are no available seats in the given trip!");
+            }
+
+            var databaseTrip = this.Data.Trips.GetById(trip.Id);
+            databaseTrip.Passengers.Add(currentUser);
+            this.Data.SaveChanges();
+
+            return this.Get(id);
         }
 
         [HttpPost]
@@ -73,6 +128,11 @@
             if (currentUser == null)
             {
                 return this.BadRequest("Invalid user token! Please login again!");
+            }
+
+            if (!currentUser.IsDriver)
+            {
+                return this.BadRequest("You should be driver to create trips!");
             }
 
             var trip = new Trip
