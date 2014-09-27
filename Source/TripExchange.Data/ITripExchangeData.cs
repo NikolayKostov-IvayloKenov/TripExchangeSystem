@@ -8,6 +8,8 @@
 
         IRepository<Trip> Trips { get; }
 
+        IRepository<City> Cities { get; }
+
         int SaveChanges();
     }
 }

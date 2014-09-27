@@ -39,6 +39,14 @@
             }
         }
 
+        public IRepository<City> Cities
+        {
+            get
+            {
+                return this.GetRepository<City>();
+            }
+        }
+
         public int SaveChanges()
         {
             return this.context.SaveChanges();

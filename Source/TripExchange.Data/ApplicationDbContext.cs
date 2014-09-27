@@ -16,6 +16,8 @@
         }
 
         public IDbSet<Trip> Trips { get; set; }
+
+        public IDbSet<City> Cities { get; set; }
         
         public static ApplicationDbContext Create()
         {
