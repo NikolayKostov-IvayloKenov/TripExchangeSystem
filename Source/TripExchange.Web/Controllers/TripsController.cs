@@ -1,5 +1,6 @@
 ﻿namespace TripExchange.Web.Controllers
 {
+    using System;
     using System.Linq;
     using System.Web.Http;
 
@@ -21,12 +22,33 @@
         {
         }
 
+        [Authorize]
         public IHttpActionResult Get(string id)
         {
-            return null;
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return this.BadRequest("Invalid trip id!");
+            }
+
+            var currentUserName = User.Identity.Name;
+
+            var tripId = new Guid(id);
+            var tripData =
+                this.Data.Trips.All()
+                    .Where(trip => trip.Id == tripId)
+                    .Select(TripViewModel.FromTrip(currentUserName))
+                    .FirstOrDefault();
+
+            if (tripData == null)
+            {
+                return this.BadRequest("Trip not found!");
+            }
+
+            return this.Ok(tripData);
         }
 
         [HttpPost]
+        [Authorize]
         public IHttpActionResult Post(CreateTripBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -47,7 +69,11 @@
             }
 
             var currentUserId = User.Identity.GetUserId();
-            var currentUser = this.Data.Users.GetById(currentUserId);
+            var currentUser = this.Data.Users.All().FirstOrDefault(x => x.Id == currentUserId);
+            if (currentUser == null)
+            {
+                return this.BadRequest("Invalid user token! Please login again!");
+            }
 
             var trip = new Trip
                            {
@@ -55,7 +81,7 @@
                                From = fromCity,
                                To = toCity,
                                DepartureTime = model.DepartureTime,
-                               Driver = currentUser,
+                               DriverId = currentUser.Id,
                            };
 
             trip.Passengers.Add(currentUser);
