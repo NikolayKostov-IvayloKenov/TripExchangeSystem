@@ -21,7 +21,7 @@
         }
 
         [HttpGet]
-        public IEnumerable<DriverViewModel> Get(GetDriversBindingModel model)
+        public IEnumerable<DriverViewModel> Get([FromUri]GetDriversBindingModel model)
         {
             const int ItemsPerPage = 10;
 
