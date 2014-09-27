@@ -84,7 +84,7 @@
                                                 To = trip.To.Name,
                                                 DepartureDate = trip.DepartureTime,
                                                 NumberOfFreeSeats = trip.AvailableSeats - trip.Passengers.Count,
-                                                IsMine = trip.Passengers.Count(u => u.UserName == currentUserUsername) > 0,
+                                                IsMine = trip.Passengers.Any(u => u.UserName == currentUserUsername),
                                             }),
                             })
                     .FirstOrDefault();
