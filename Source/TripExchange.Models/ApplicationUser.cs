@@ -1,5 +1,6 @@
 ﻿namespace TripExchange.Models
 {
+    using System.Collections.Generic;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
@@ -9,9 +10,22 @@
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+        private ICollection<Trip> trips;
+
+        public ApplicationUser()
+        {
+            this.trips = new HashSet<Trip>();
+        }
+
         public bool IsDriver { get; set; }
 
         public string Car { get; set; }
+
+        public virtual ICollection<Trip> Trips
+        {
+            get { return this.trips; }
+            set { this.trips = value; }
+        }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
