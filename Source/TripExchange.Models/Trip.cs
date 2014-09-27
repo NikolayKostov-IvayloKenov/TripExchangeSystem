@@ -9,6 +9,7 @@
 
         public Trip()
         {
+            this.Id = Guid.NewGuid();
             this.passengers = new HashSet<ApplicationUser>();
         }
 
