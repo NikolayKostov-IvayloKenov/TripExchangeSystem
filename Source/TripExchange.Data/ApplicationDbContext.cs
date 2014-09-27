@@ -4,7 +4,6 @@
 
     using Microsoft.AspNet.Identity.EntityFramework;
 
-    using TripExchange.Data.Migrations;
     using TripExchange.Models;
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

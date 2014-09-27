@@ -1,11 +1,9 @@
 ﻿namespace TripExchange.Web
 {
     using System.Web.Http;
-    using System.Web.Http.Cors;
 
     using Microsoft.Owin.Security.OAuth;
 
-    using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
 
     public static class WebApiConfig
