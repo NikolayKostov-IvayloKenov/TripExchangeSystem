@@ -48,6 +48,12 @@
             return this.Ok(tripData);
         }
 
+        [HttpGet]
+        public IHttpActionResult Get(GetTripsBindingModel model)
+        {
+            return this.BadRequest("Not implemented.");
+        }
+
         [Authorize]
         [HttpPut]
         public IHttpActionResult Put(string id)
