@@ -16,6 +16,15 @@
         public Guid Id { get; set; }
 
         public DateTime DepartureTime { get; set; }
+
+        public virtual City From { get; set; }
+
+        public virtual City To { get; set; }
+
+        /// <summary>
+        /// Available seats including the driver
+        /// </summary>
+        public byte AvailableSeats { get; set; }
         
         public virtual ICollection<ApplicationUser> Passengers
         {
