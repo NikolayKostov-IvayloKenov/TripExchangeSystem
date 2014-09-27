@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using System.Web.Http;
 
     using TripExchange.Data;
     using TripExchange.Web.Models.Stats;
@@ -18,6 +19,7 @@
         {
         }
 
+        [HttpGet]
         public StatsViewModel Get()
         {
             var stats = new StatsViewModel
