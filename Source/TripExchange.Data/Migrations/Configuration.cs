@@ -37,7 +37,7 @@ namespace TripExchange.Data.Migrations
 
             for (var i = 1; i <= NumberOfUsers; i++)
             {
-                var userName = string.Format("test{0}@test.com", i);
+                var userName = string.Format("test{0:D2}@test.com", i);
                 const string Password = "123456";
                 var isDriver = i % 2 == 0;
                 var car = isDriver ? string.Format("car {0}", i) : null;

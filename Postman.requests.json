@@ -1,1 +1,150 @@
-{"id":"fd637dc1-73c7-3277-405f-cb11ba634d21","name":"TripExchange","timestamp":1411725941962,"requests":[{"collectionId":"fd637dc1-73c7-3277-405f-cb11ba634d21","id":"32e50d77-2948-a009-2deb-bfaad2371d47","name":"UserInfo","description":"","url":"http://localhost:1337/api/users/userInfo","method":"GET","headers":"Authorization: Bearer B0dNZzAHuFwsktd42_anU3KM4oItDeb4zrS24VO6OUaVeBty3Nsj7-73ZCj4jmV6mUsQaTw5OWpESPN9OAnW8_FL8yUaldPn0lbAcpbXcHMhlzFd55weIbNOaMfgFR_SJ5spRJj-8n_UVTbDc7aZqYo7DYbaknu1Tq627Dfi2JU59iClj1wuPUbt72So82NcJAEbh2A9hpb_8jUe6jFxXUzrtIeYe9Ij7MB8NpWwP7YskEMVLdPrpnqFzjY0WYPIcOGw5ju2CkBjjiBtOKzPUC36vsctQBCBrNe7JOMrqkqSSGQPafYJuDzi1KFdRUKWygwWFLCjNpN-PJGWJ0S7oTTYsEzplJXf3x_13Ndbf4cxuoe7gADktudx9yZdXQM9hn7E6hwem7LbzkPAR8Wd4kO5O8wJCRvQTnbZc4w0lo26JpXgmbPxkCwJS5KQYMKVv3pPeSNvBwetA30cI7md8S9_t4xJ1QlVdu-WoJCWQaM\n","data":[],"dataMode":"urlencoded","timestamp":0,"version":2,"time":1411738449982},{"collectionId":"fd637dc1-73c7-3277-405f-cb11ba634d21","id":"3f58a41e-9307-d469-c3c7-9aa02d364693","name":"Login","description":"","url":"http://localhost:1337/api/users/login","method":"POST","headers":"","data":[{"key":"grant_type","value":"password","type":"text"},{"key":"username","value":"test@test.com","type":"text"},{"key":"password","value":"123456","type":"text"}],"dataMode":"urlencoded","timestamp":0,"version":2,"time":1411738444536},{"collectionId":"fd637dc1-73c7-3277-405f-cb11ba634d21","id":"b69f8bf0-c8db-feff-8f9f-cb589c63ef35","name":"Logout","description":"","url":"http://localhost:1337/api/users/logout","method":"POST","headers":"Authorization: Bearer 8yxUOAvQNkohZJVHuquoZ3zjO640gWySqZm0dXqXM1Guh6ro9z_M7K3NfXCGKRbI9_Ga1WSvWugVqFavcwJyJkkUWmLD5ipvjlGB961WuQrP2g2-GOummhPGcF9WCbx-wrvr0HJ9VAperBfemhAhS-_dxnzwNV_bmzaz_uKCf_ZxXpVNzf0KIC1yp30MzazlIgJWHo8yO0rNWmlB8woEbXwDXKCHWWeiphddoEY-ZVd8RUVz4ZwPdqgz8k1hJ_ISVq8D9hI0aoPFiohiL0vFUflHEFdIWBtZHdFkSU_HeiYbdoCUHotOTWmi18ckf1opLyel2yL0s9E5jMRWRTzEkkAtbkFGEDF-7oXA1WOBLYOTqYoUE2RDyBAl8lFyaIpRvqWXkewo93yO7R2peEC2b_Ncj8sdsaJ7PzAuNuHR6c0OB8jqA208MArPd6wAQhTHfgjtvfN-9TNgrC-7pg5IBbXlkxY2nHtxAceLLgmgGxKIuyF1_NlPMTO7uZXCFbdY\n","data":[],"dataMode":"urlencoded","timestamp":0,"version":2,"time":1411738447328},{"collectionId":"fd637dc1-73c7-3277-405f-cb11ba634d21","id":"f5bb034b-50ef-f47a-8eca-64b43c04f598","name":"Register","description":"","url":"http://localhost:1337/api/users/register","method":"POST","headers":"","data":[{"key":"email","value":"test@test.com","type":"text"},{"key":"password","value":"123456","type":"text"},{"key":"confirmPassword","value":"123456","type":"text"},{"key":"isDriver","value":"true","type":"text"},{"key":"car","value":"Mazda 6 2014","type":"text"}],"dataMode":"urlencoded","timestamp":0,"version":2,"time":1411738441451}]}
+{
+	"id": "fd637dc1-73c7-3277-405f-cb11ba634d21",
+	"name": "TripExchange",
+	"description": "",
+	"order": [
+		"f5bb034b-50ef-f47a-8eca-64b43c04f598",
+		"3f58a41e-9307-d469-c3c7-9aa02d364693",
+		"32e50d77-2948-a009-2deb-bfaad2371d47",
+		"b69f8bf0-c8db-feff-8f9f-cb589c63ef35",
+		"c71c7542-f386-9077-01fd-1425e593c750",
+		"a05af9d3-5aa8-3750-3e97-a7a3cb362833"
+	],
+	"folders": [],
+	"timestamp": 1411725941962,
+	"synced": false,
+	"requests": [
+		{
+			"collectionId": "fd637dc1-73c7-3277-405f-cb11ba634d21",
+			"id": "32e50d77-2948-a009-2deb-bfaad2371d47",
+			"name": "UserInfo",
+			"description": "",
+			"url": "http://localhost:1337/api/users/userInfo",
+			"method": "GET",
+			"headers": "Authorization: Bearer B0dNZzAHuFwsktd42_anU3KM4oItDeb4zrS24VO6OUaVeBty3Nsj7-73ZCj4jmV6mUsQaTw5OWpESPN9OAnW8_FL8yUaldPn0lbAcpbXcHMhlzFd55weIbNOaMfgFR_SJ5spRJj-8n_UVTbDc7aZqYo7DYbaknu1Tq627Dfi2JU59iClj1wuPUbt72So82NcJAEbh2A9hpb_8jUe6jFxXUzrtIeYe9Ij7MB8NpWwP7YskEMVLdPrpnqFzjY0WYPIcOGw5ju2CkBjjiBtOKzPUC36vsctQBCBrNe7JOMrqkqSSGQPafYJuDzi1KFdRUKWygwWFLCjNpN-PJGWJ0S7oTTYsEzplJXf3x_13Ndbf4cxuoe7gADktudx9yZdXQM9hn7E6hwem7LbzkPAR8Wd4kO5O8wJCRvQTnbZc4w0lo26JpXgmbPxkCwJS5KQYMKVv3pPeSNvBwetA30cI7md8S9_t4xJ1QlVdu-WoJCWQaM\n",
+			"data": [],
+			"dataMode": "urlencoded",
+			"timestamp": 0,
+			"version": 2,
+			"time": 1411738449982,
+			"synced": false
+		},
+		{
+			"collectionId": "fd637dc1-73c7-3277-405f-cb11ba634d21",
+			"id": "3f58a41e-9307-d469-c3c7-9aa02d364693",
+			"name": "Login",
+			"description": "",
+			"url": "http://localhost:1337/api/users/login",
+			"method": "POST",
+			"headers": "",
+			"data": [
+				{
+					"key": "grant_type",
+					"value": "password",
+					"type": "text"
+				},
+				{
+					"key": "username",
+					"value": "test@test.com",
+					"type": "text"
+				},
+				{
+					"key": "password",
+					"value": "123456",
+					"type": "text"
+				}
+			],
+			"dataMode": "urlencoded",
+			"timestamp": 0,
+			"version": 2,
+			"time": 1411738444536,
+			"synced": false
+		},
+		{
+			"collectionId": "fd637dc1-73c7-3277-405f-cb11ba634d21",
+			"id": "a05af9d3-5aa8-3750-3e97-a7a3cb362833",
+			"name": "Drivers (public)",
+			"description": "",
+			"url": "http://localhost:1337/api/drivers",
+			"method": "GET",
+			"headers": "",
+			"data": [],
+			"dataMode": "urlencoded",
+			"timestamp": 0,
+			"responses": [],
+			"version": 2,
+			"synced": false
+		},
+		{
+			"collectionId": "fd637dc1-73c7-3277-405f-cb11ba634d21",
+			"id": "b69f8bf0-c8db-feff-8f9f-cb589c63ef35",
+			"name": "Logout",
+			"description": "",
+			"url": "http://localhost:1337/api/users/logout",
+			"method": "POST",
+			"headers": "Authorization: Bearer 8yxUOAvQNkohZJVHuquoZ3zjO640gWySqZm0dXqXM1Guh6ro9z_M7K3NfXCGKRbI9_Ga1WSvWugVqFavcwJyJkkUWmLD5ipvjlGB961WuQrP2g2-GOummhPGcF9WCbx-wrvr0HJ9VAperBfemhAhS-_dxnzwNV_bmzaz_uKCf_ZxXpVNzf0KIC1yp30MzazlIgJWHo8yO0rNWmlB8woEbXwDXKCHWWeiphddoEY-ZVd8RUVz4ZwPdqgz8k1hJ_ISVq8D9hI0aoPFiohiL0vFUflHEFdIWBtZHdFkSU_HeiYbdoCUHotOTWmi18ckf1opLyel2yL0s9E5jMRWRTzEkkAtbkFGEDF-7oXA1WOBLYOTqYoUE2RDyBAl8lFyaIpRvqWXkewo93yO7R2peEC2b_Ncj8sdsaJ7PzAuNuHR6c0OB8jqA208MArPd6wAQhTHfgjtvfN-9TNgrC-7pg5IBbXlkxY2nHtxAceLLgmgGxKIuyF1_NlPMTO7uZXCFbdY\n",
+			"data": [],
+			"dataMode": "urlencoded",
+			"timestamp": 0,
+			"version": 2,
+			"time": 1411738447328,
+			"synced": false
+		},
+		{
+			"collectionId": "fd637dc1-73c7-3277-405f-cb11ba634d21",
+			"id": "c71c7542-f386-9077-01fd-1425e593c750",
+			"name": "Stats",
+			"description": "",
+			"url": "http://localhost:1337/api/stats",
+			"method": "GET",
+			"headers": "",
+			"data": [],
+			"dataMode": "urlencoded",
+			"timestamp": 0,
+			"responses": [],
+			"version": 2,
+			"synced": false
+		},
+		{
+			"collectionId": "fd637dc1-73c7-3277-405f-cb11ba634d21",
+			"id": "f5bb034b-50ef-f47a-8eca-64b43c04f598",
+			"name": "Register",
+			"description": "",
+			"url": "http://localhost:1337/api/users/register",
+			"method": "POST",
+			"headers": "",
+			"data": [
+				{
+					"key": "email",
+					"value": "test@test.com",
+					"type": "text"
+				},
+				{
+					"key": "password",
+					"value": "123456",
+					"type": "text"
+				},
+				{
+					"key": "confirmPassword",
+					"value": "123456",
+					"type": "text"
+				},
+				{
+					"key": "isDriver",
+					"value": "true",
+					"type": "text"
+				},
+				{
+					"key": "car",
+					"value": "Mazda 6 2014",
+					"type": "text"
+				}
+			],
+			"dataMode": "urlencoded",
+			"timestamp": 0,
+			"version": 2,
+			"time": 1411738441451,
+			"synced": false
+		}
+	]
+}
