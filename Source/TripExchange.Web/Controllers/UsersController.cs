@@ -80,6 +80,11 @@
                 return this.BadRequest(this.ModelState);
             }
 
+            if (!model.IsDriver)
+            {
+                model.Car = null;
+            }
+
             var user = new ApplicationUser
             {
                 UserName = model.Email,
