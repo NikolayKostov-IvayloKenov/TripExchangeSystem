@@ -31,15 +31,7 @@
                 model = new GetDriversBindingModel { Page = 1, Username = null };
             }
 
-            var query = this.Data.Users.All().Where(x => x.IsDriver);
-
-            var data = query.Select(user => new DriverViewModel
-            {
-                Id = user.Id,
-                Name = user.UserName,
-                NumberOfTotalTrips = user.Trips.Count(),
-                NumberOfUpcomingTrips = user.Trips.Count(trip => trip.DepartureTime > DateTime.Now),
-            });
+            var data = this.Data.Users.All().Where(x => x.IsDriver).Select(DriverViewModel.FromApplicationUser);
 
             if (!string.IsNullOrEmpty(model.Username))
             {
