@@ -26,7 +26,7 @@
             const int ItemsPerPage = 10;
 
             // When called anonymously it returns the top 10 drivers with no paging and filtering
-            if (!User.Identity.IsAuthenticated)
+            if (!User.Identity.IsAuthenticated || model == null)
             {
                 model = new GetDriversBindingModel { Page = 1, Username = null };
             }
