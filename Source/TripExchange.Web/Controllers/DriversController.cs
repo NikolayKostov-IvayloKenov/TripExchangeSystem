@@ -2,11 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Web.Http;
 
     using TripExchange.Data;
     using TripExchange.Web.Models.Drivers;
+    using TripExchange.Web.Models.Trips;
 
     public class DriversController : BaseApiController
     {
@@ -52,9 +54,47 @@
         
         [HttpGet]
         [Authorize]
-        public DriverViewModel Get(string id)
+        public IHttpActionResult Get(string id)
         {
-            return null;
+            var currentUserUsername = User.Identity.Name;
+
+            // TODO: Investigate why using Expression<Func> (DriverWithTripsViewModel.FromApplicationUser()) is causing EF exception
+            var driver =
+                this.Data.Users.All()
+                    .Where(user => user.IsDriver && user.Id == id)
+                    .Select(
+                        user =>
+                        new DriverWithTripsViewModel
+                            {
+                                Id = user.Id,
+                                Name = user.UserName,
+                                NumberOfTotalTrips = user.Trips.Count(),
+                                NumberOfUpcomingTrips =
+                                    user.Trips.Count(trip => trip.DepartureTime > DateTime.Now),
+                                Trips =
+                                    user.Trips
+                                        .Where(trip => trip.DepartureTime > DateTime.Now)
+                                        .OrderBy(trip => trip.DepartureTime)
+                                        .Take(50)
+                                        .Select(trip =>
+                                        new TripViewModel
+                                            {
+                                                Id = trip.Id.ToString(),
+                                                From = trip.From.Name,
+                                                To = trip.To.Name,
+                                                DepartureDate = trip.DepartureTime,
+                                                NumberOfFreeSeats = trip.AvailableSeats - trip.Passengers.Count,
+                                                IsMine = trip.Passengers.Count(u => u.UserName == currentUserUsername) > 0,
+                                            }),
+                            })
+                    .FirstOrDefault();
+
+            if (driver == null)
+            {
+                return this.BadRequest("The requested driver was not found in users or is not marked as a driver.");
+            }
+
+            return this.Ok(driver);
         }
     }
 }

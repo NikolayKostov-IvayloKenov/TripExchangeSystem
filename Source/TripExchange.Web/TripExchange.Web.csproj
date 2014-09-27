@@ -229,8 +229,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Drivers\DriverViewModel.cs" />
+    <Compile Include="Models\Drivers\DriverWithTripsViewModel.cs" />
     <Compile Include="Models\Drivers\GetDriversBindingModel.cs" />
     <Compile Include="Models\Stats\StatsViewModel.cs" />
+    <Compile Include="Models\Trips\TripViewModel.cs" />
     <Compile Include="Models\Users\AddExternalLoginBindingModel.cs" />
     <Compile Include="Models\Users\ChangePasswordBindingModel.cs" />
     <Compile Include="Models\Users\ExternalLoginViewModel.cs" />
