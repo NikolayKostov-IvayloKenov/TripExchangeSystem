@@ -14,6 +14,7 @@ namespace TripExchange.Web
     using Microsoft.Owin.Cors;
 
     using Owin;
+    using System.Web.Http;
 
     public partial class Startup
     {
@@ -36,6 +37,8 @@ namespace TripExchange.Web
             });
 
             ConfigureAuth(app);
+
+            GlobalConfiguration.Configuration.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
         }
     }
 }
