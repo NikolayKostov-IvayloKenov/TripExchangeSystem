@@ -18,21 +18,6 @@
 
         public int NumberOfTotalTrips { get; set; }
 
-        public IEnumerable<TripViewModel> Trips { get; set; }
-
-        public static Expression<Func<ApplicationUser, DriverWithTripsViewModel>> FromApplicationUser(string currentUserUsername)
-        {
-            return
-                user =>
-                new DriverWithTripsViewModel
-                    {
-                        Id = user.Id,
-                        Name = user.UserName,
-                        NumberOfTotalTrips = user.Trips.AsQueryable().Count(),
-                        NumberOfUpcomingTrips =
-                            user.Trips.AsQueryable().Count(trip => trip.DepartureTime > DateTime.Now),
-                        Trips = user.Trips.AsQueryable().Select(TripViewModel.FromTrip(currentUserUsername)),
-                    };
-        }
+        public IEnumerable<TripInfoViewModel> Trips { get; set; }
     }
 }

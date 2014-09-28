@@ -76,7 +76,7 @@
                                         .OrderBy(trip => trip.DepartureTime)
                                         .Take(50)
                                         .Select(trip =>
-                                        new TripViewModel
+                                        new TripInfoViewModel
                                             {
                                                 Id = trip.Id.ToString(),
                                                 DriverId = trip.DriverId,

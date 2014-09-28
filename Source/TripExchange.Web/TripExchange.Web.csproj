@@ -235,6 +235,7 @@
     <Compile Include="Models\Stats\StatsViewModel.cs" />
     <Compile Include="Models\Trips\CreateTripBindingModel.cs" />
     <Compile Include="Models\Trips\GetTripsBindingModel.cs" />
+    <Compile Include="Models\Trips\TripInfoViewModel.cs" />
     <Compile Include="Models\Trips\TripViewModel.cs" />
     <Compile Include="Models\Users\AddExternalLoginBindingModel.cs" />
     <Compile Include="Models\Users\ChangePasswordBindingModel.cs" />
