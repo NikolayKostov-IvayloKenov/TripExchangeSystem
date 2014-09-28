@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TripExchange.Models", "Trip
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TripExchange.Data", "TripExchange.Data\TripExchange.Data.csproj", "{C4F20351-DE3A-4F6D-B20A-E6680CEBE50B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TripExchange.Common", "TripExchange.Common\TripExchange.Common.csproj", "{66158F75-1774-4A77-81DB-540AD9F3E5B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C4F20351-DE3A-4F6D-B20A-E6680CEBE50B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4F20351-DE3A-4F6D-B20A-E6680CEBE50B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4F20351-DE3A-4F6D-B20A-E6680CEBE50B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66158F75-1774-4A77-81DB-540AD9F3E5B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66158F75-1774-4A77-81DB-540AD9F3E5B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66158F75-1774-4A77-81DB-540AD9F3E5B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66158F75-1774-4A77-81DB-540AD9F3E5B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
