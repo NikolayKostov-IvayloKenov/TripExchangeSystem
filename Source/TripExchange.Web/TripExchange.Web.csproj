@@ -324,6 +324,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TripExchange.Common\TripExchange.Common.csproj">
+      <Project>{66158f75-1774-4a77-81db-540ad9f3e5b4}</Project>
+      <Name>TripExchange.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TripExchange.Data\TripExchange.Data.csproj">
       <Project>{C4F20351-DE3A-4F6D-B20A-E6680CEBE50B}</Project>
       <Name>TripExchange.Data</Name>
