@@ -51,7 +51,25 @@
         [HttpGet]
         public IHttpActionResult Get(GetTripsBindingModel model)
         {
-            return this.BadRequest("Not implemented.");
+            const int ItemsPerPage = 10;
+
+            // When called anonymously it returns the top 10 trips where their departure time is in the future, sorted by their time of departure in ascending order
+            if (!User.Identity.IsAuthenticated || model == null)
+            {
+                model = new GetTripsBindingModel();
+            }
+
+            var currentUserName = User.Identity.Name;
+            var data = this.Data.Trips.All().Select(TripViewModel.FromTrip(currentUserName));
+
+            if (model.Page > 1)
+            {
+                data = data.Skip(ItemsPerPage * (model.Page - 1));
+            }
+
+            data = data.Take(ItemsPerPage);
+
+            return this.Ok(data);
         }
 
         [Authorize]
