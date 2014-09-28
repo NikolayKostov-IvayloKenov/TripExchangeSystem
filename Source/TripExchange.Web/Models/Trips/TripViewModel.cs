@@ -25,7 +25,7 @@
 
         public bool IsMine { get; set; }
 
-        public IEnumerable<string> Passangers { get; set; }
+        public IEnumerable<string> Passengers { get; set; }
 
         public static Expression<Func<Trip, TripViewModel>> FromTrip(string currentUserUsername)
         {
@@ -41,7 +41,7 @@
                         DepartureDate = trip.DepartureTime,
                         NumberOfFreeSeats = trip.AvailableSeats - trip.Passengers.Count,
                         IsMine = trip.Passengers.AsQueryable().Count(u => u.UserName == currentUserUsername) > 0,
-                        Passangers = trip.Passengers.Select(p => p.UserName),
+                        Passengers = trip.Passengers.Select(p => p.UserName),
                     };
         }
     }
