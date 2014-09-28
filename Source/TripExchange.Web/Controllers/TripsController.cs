@@ -186,6 +186,11 @@
                 return this.BadRequest("\"To\" city does not exist!");
             }
 
+            if (fromCity.Name == toCity.Name)
+            {
+                return this.BadRequest("\"From\" and \"To\" should be different!");
+            }
+
             var currentUserId = User.Identity.GetUserId();
             var currentUser = this.Data.Users.All().FirstOrDefault(x => x.Id == currentUserId);
             if (currentUser == null)
