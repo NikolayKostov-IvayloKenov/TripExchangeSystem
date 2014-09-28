@@ -6,9 +6,7 @@
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "SPA Exam 2014 API";
-
-            return this.View();
+            return this.Redirect("/Help");
         }
     }
 }
