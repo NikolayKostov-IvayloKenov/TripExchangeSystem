@@ -9,12 +9,12 @@ namespace TripExchange.Web
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web.Cors;
+    using System.Web.Http;
 
     using Microsoft.Owin;
     using Microsoft.Owin.Cors;
 
     using Owin;
-    using System.Web.Http;
 
     public partial class Startup
     {
