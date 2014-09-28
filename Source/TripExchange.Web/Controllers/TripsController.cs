@@ -49,7 +49,7 @@
         }
 
         [HttpGet]
-        public IHttpActionResult Get(GetTripsBindingModel model)
+        public IHttpActionResult Get([FromUri]GetTripsBindingModel model)
         {
             const int ItemsPerPage = 10;
 
@@ -69,7 +69,7 @@
 
             data = data.Take(ItemsPerPage);
 
-            return this.Ok(data);
+            return this.Ok(data.ToList());
         }
 
         [Authorize]
