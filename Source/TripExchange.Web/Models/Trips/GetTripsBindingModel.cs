@@ -29,5 +29,24 @@
         public bool Finished { get; set; }
 
         public bool OnlyMine { get; set; }
+
+        public string GetOrderByPropertyName()
+        {
+            switch (this.OrderBy.ToLower())
+            {
+                case "driver":
+                    return "DriverName";
+                case "date":
+                    return "DepartureDate";
+                case "seats":
+                    return "NumberOfFreeSeats";
+                case "from":
+                    return "From";
+                case "to":
+                    return "To";
+                default:
+                    return null;
+            }
+        }
     }
 }

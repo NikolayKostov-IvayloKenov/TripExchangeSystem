@@ -6,6 +6,7 @@
 
     using Microsoft.AspNet.Identity;
 
+    using TripExchange.Common;
     using TripExchange.Data;
     using TripExchange.Models;
     using TripExchange.Web.Models.Trips;
@@ -61,6 +62,39 @@
 
             var currentUserName = User.Identity.Name;
             var data = this.Data.Trips.All().Select(TripViewModel.FromTrip(currentUserName));
+
+            if (!model.Finished)
+            {
+                data = data.Where(trip => trip.DepartureDate > DateTime.Now);
+            }
+
+            if (model.OnlyMine)
+            {
+                data = data.Where(trip => trip.IsMine);
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.From))
+            {
+                data = data.Where(trip => trip.From == model.From);
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.To))
+            {
+                data = data.Where(trip => trip.To == model.To);
+            }
+
+            var orderByProperty = model.GetOrderByPropertyName();
+            if (orderByProperty != null)
+            {
+                if (model.OrderType == "desc")
+                {
+                    data = data.OrderByDescending(orderByProperty);
+                }
+                else
+                {
+                    data = data.OrderBy(orderByProperty);
+                }
+            }
 
             if (model.Page > 1)
             {
