@@ -169,6 +169,11 @@
                 return this.BadRequest(this.ModelState);
             }
 
+            if (model.DepartureTime <= DateTime.Now)
+            {
+                return this.BadRequest("\"DepartureTime\" should be in the future!");
+            }
+
             var fromCity = this.Data.Cities.All().FirstOrDefault(city => city.Name == model.From);
             if (fromCity == null)
             {

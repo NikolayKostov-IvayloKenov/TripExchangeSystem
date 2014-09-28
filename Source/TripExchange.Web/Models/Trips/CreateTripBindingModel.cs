@@ -15,7 +15,7 @@
         public DateTime DepartureTime { get; set; }
 
         [Required]
-        [Range(0, 254)]
+        [Range(1, 254)]
         public byte AvailableSeats { get; set; }
     }
 }
