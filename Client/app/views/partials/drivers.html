@@ -1,0 +1,17 @@
+<div class="container">
+    <h2 class="text-center">Drivers</h2>
+    <div ng-if="identity.isAuthenticated()" class="row">
+        <div class="col-md-2">
+            <input id="username" placeholder="Username search" class="form-control" type="text" ng-model="request.username" />
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-info" ng-click="filter(request)">Filter</button>
+        </div>
+        <div pager class="col-md-8" />
+    </div>
+    <br />
+    <div drivers ng-if="drivers.length" />
+    <div ng-if="!drivers.length">
+        <h2 class="text-center">No results!</h2>
+    </div>
+</div>

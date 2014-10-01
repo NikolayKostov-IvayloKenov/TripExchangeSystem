@@ -1,0 +1,54 @@
+<div class="container">
+    <h2 class="text-center">
+        Trips
+        <a href="#/trips/create" class="btn btn-sm btn-info pull-right" ng-if="identity.isAuthenticated()">Create</a>
+    </h2>
+    <div ng-if="identity.isAuthenticated()">
+        <div class="row">
+            <div class="col-md-3">
+                <p class="text-center">Sort</p>
+                <select class="form-control" ng-model="request.orderBy">
+                    <option value="" selected="selected">None</option>
+                    <option value="driver">Driver</option>
+                    <option value="date">Date</option>
+                    <option value="seats">Number of seats</option>
+                    <option value="from">From</option>
+                    <option value="to">To</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <p class="text-center">Order</p>
+                <select class="form-control" ng-model="request.orderType">
+                    <option value="" selected="selected">None</option>
+                    <option value="asc">Ascending</option>
+                    <option value="desc">Descending</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <p class="text-center">From</p>
+                <select cities class="form-control" ng-model="request.from" />
+            </div>
+            <div class="col-md-3">
+                <p class="text-center">To</p>
+                <select cities class="form-control" ng-model="request.to" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-2">
+                <input type="checkbox" ng-model="request.finished" /> Include finished
+                <br />
+                <input type="checkbox" ng-model="request.onlyMine" /> Only mine
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-info" ng-click="filter(request)">Filter</button>
+            </div>
+            <div pager class="col-md-8" />
+        </div>
+    </div>
+    <br />
+    <div trips ng-if="trips.length" />
+    <div ng-if="!trips.length">
+        <h2 class="text-center">No results!</h2>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="container">
+    <h2 class="text-center">
+        {{trip.driverName}} - {{trip.departureDate | date: 'medium'}}
+        <button class="btn btn-sm btn-info pull-right" ng-click="joinTrip(trip.id)" ng-disabled="disableJoinButton(trip)">Join Trip</button>
+    </h2>
+    <br />
+    <div class="row">
+        <div class="col-md-4 text-center">
+            From: <strong>{{trip.from}}</strong>
+        </div>
+        <div class="col-md-4 text-center">
+            To: <strong>{{trip.to}}</strong>
+        </div>
+        <div class="col-md-4 text-center">
+            Number of free seats: <strong>{{trip.numberOfFreeSeats}}</strong>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-12 text-center">
+            Passengers: {{passengers}}
+        </div>
+    </div>
+</div>

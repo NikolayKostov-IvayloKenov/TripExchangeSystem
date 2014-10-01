@@ -1,0 +1,40 @@
+<div class="container">
+    <h1 class="text-center" ng-if="!userInfo.isDriver">You need to be a registered driver in order to create a trip!</h1>
+    <div class="well" ng-if="userInfo.isDriver">
+        <form name="createTripForm" class="form-horizontal">
+            <fieldset>
+                <legend>Create New Trip</legend>
+                <div class="form-group">
+                    <label for="from" class="col-md-2 control-label">From</label>
+                    <div class="col-md-10">
+                        <select id="from" cities class="form-control" required="required" ng-model="trip.from" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="to" class="col-md-2 control-label">To</label>
+                    <div class="col-md-10">
+                        <select id="to" cities class="form-control" required="required" ng-model="trip.to" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="availableSeats" class="col-md-2 control-label">Available seats</label>
+                    <div class="col-md-10">
+                        <input id="availableSeats" type="number" min="1" placeholder="Available seats" ng-model="trip.availableSeats" required="required" class="form-control"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="departureTime" class="col-md-2 control-label">Departure time</label>
+                    <div class="col-md-10">
+                        <input id="departureTime" type="datetime" date-picker placeholder="yyyy-MM-dd HH:mm:ss" ng-model="trip.departureTime" required="required" class="form-control"/>
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <button ng-click="createTrip(trip)" ng-disabled="createTripForm.$invalid || trip.from == trip.to" class="btn btn-primary">
+                        Create
+                    </button>
+                    <a href="#/" class="btn btn-primary">Cancel</a>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>

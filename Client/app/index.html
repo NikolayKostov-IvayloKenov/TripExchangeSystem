@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Trip Exchange</title>
+    <link rel="stylesheet" href="../css/jquery-ui.min.css" />
+    <link rel="stylesheet" href="../css/jquery-ui.structure.min.css" />
+    <link rel="stylesheet" href="../css/jquery-ui.theme.min.css" />
+    <link red="stylesheet" href="../css/jquery-ui-timepicker-addon.min.css" />
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="../css/toastr.min.css" />
+    <link rel="stylesheet" href="../css/app.css" />
+</head>
+<body ng-app="tripExchange" ng-cloak>
+<div class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="#/" class="navbar-brand">Trip Exchange</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="#/trips">Trips</a>
+                </li>
+                <li>
+                    <a href="#/drivers">Drivers</a>
+                </li>
+            </ul>
+            <div ng-include="'views/partials/login.html'"></div>
+        </div>
+    </div>
+</div>
+
+<div ng-view>
+</div>
+
+<hr />
+<footer class="text-center" ng-cloak>
+    Copyright: <a href="http://telerikacademy.com/" target="_blank"><strong>Telerik Academy 2014</strong></a>
+	<br />
+	Authors: <strong>Ivaylo Kenov</strong> & <strong>Nikolay Kostov</strong>
+    <br />
+    Powered by:</strong> <a href="http://angularjs.org/" target="_blank">AngularJS</a> and <a href="http://getbootstrap.com/" target="_blank">Twitter Bootstrap</a></small>
+</footer>
+<hr />
+
+<script src="lib/jquery/jquery.min.js"></script>
+<script src="lib/jquery-ui/jquery-ui.min.js"></script>
+<script src="lib/jquery-ui/jquery-ui-timepicker-addon.min.js"></script>
+<script src="lib/toastr/toastr.min.js"></script>
+<script src="lib/bootstrap/bootstrap.min.js"></script>
+<script src="lib/angular/angular.js"></script>
+<script src="lib/angular/angular-resource.min.js"></script>
+<script src="lib/angular/angular-route.min.js"></script>
+<script src="lib/angular/angular-cookies.min.js"></script>
+<script src="js/app.js"></script>
+<script src="js/controllers/HomeCtrl.js"></script>
+<script src="js/controllers/SignUpCtrl.js"></script>
+<script src="js/controllers/LoginCtrl.js"></script>
+<script src="js/controllers/DriversCtrl.js"></script>
+<script src="js/controllers/DriverDetailsCtrl.js"></script>
+<script src="js/controllers/TripsCtrl.js"></script>
+<script src="js/controllers/TripCreateCtrl.js"></script>
+<script src="js/controllers/TripDetailsCtrl.js"></script>
+<script src="js/filters/isMine.js"></script>
+<script src="js/filters/onlyDriver.js"></script>
+<script src="js/services/account/auth.js"></script>
+<script src="js/services/account/identity.js"></script>
+<script src="js/services/account/authorization.js"></script>
+<script src="js/services/interceptors/errorHandlerHttpInterceptor.js"></script>
+<script src="js/services/resources/CitiesResource.js"></script>
+<script src="js/services/resources/StatsResource.js"></script>
+<script src="js/services/resources/TripsResource.js"></script>
+<script src="js/services/resources/DriversResource.js"></script>
+<script src="js/services/notifier.js"></script>
+<script src="js/services/errorHandler.js"></script>
+<script src="js/directives/statistics.js"></script>
+<script src="js/directives/trips.js"></script>
+<script src="js/directives/drivers.js"></script>
+<script src="js/directives/pager.js"></script>
+<script src="js/directives/cities.js"></script>
+<script src="js/directives/datePicker.js"></script>
+</body>
+</html>

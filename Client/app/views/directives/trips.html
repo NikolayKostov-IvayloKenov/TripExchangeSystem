@@ -1,0 +1,36 @@
+<table class="table table-bordered">
+    <tr>
+        <th class="text-center">
+            Driver
+        </th>
+        <th class="text-center">
+            From
+        </th>
+        <th class="text-center">
+            To
+        </th>
+        <th class="text-center">
+            Departure Time
+        </th>
+        <th class="text-center" ng-if="!hideIsMine && identity.isAuthenticated()">
+            Is Mine
+        </th>
+    </tr>
+    <tr ng-repeat="trip in trips | filter: { isMine: mine } | orderBy: sort | onlyDriver: currentDriver">
+        <td class="text-center">
+            <a href="#/drivers/{{trip.driverId}}">{{trip.driverName}}</a>
+        </td>
+        <td class="text-center">
+            {{trip.from}}
+        </td>
+        <td class="text-center">
+            {{trip.to}}
+        </td>
+        <td class="text-center">
+            <a href="#/trips/{{trip.id}}">{{trip.departureDate | date: 'medium'}}</a>
+        </td>
+        <td class="text-center" ng-if="!hideIsMine && identity.isAuthenticated()">
+            <img src="{{trip.isMine | isMine}}" />
+        </td>
+    </tr>
+</table>

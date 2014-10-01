@@ -1,0 +1,24 @@
+<div class="container">
+    <h2>{{driver.name}}</h2>
+    <div class="row">
+        <div class="col-md-3">
+            <p>Upcoming trips: <strong>{{driver.numberOfUpcomingTrips}}</strong></p>
+        </div>
+        <div class="col-md-3">
+            <p>Total trips: <strong>{{driver.numberOfTotalTrips}}</strong></p>
+        </div>
+        <div class="col-md-3">
+            <input type="checkbox" ng-model="mine" /> Only mine trips &nbsp;
+            <input type="checkbox" ng-model="onlyDriver" ng-change="onOnlyDriverCheckboxChange()"/> Only driver trips
+        </div>
+        <div class="col-md-3">
+            <select class="pull-right" ng-model="sort">
+                <option value="" selected="selected">None</option>
+                <option value="from">From</option>
+                <option value="to">To</option>
+                <option value="-departureDate">Departure time</option>
+            </select>
+        </div>
+    </div>
+    <div trips />
+</div>

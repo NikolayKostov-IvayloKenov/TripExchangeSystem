@@ -1,0 +1,34 @@
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="text-center">
+            Welcome to Trip Exchange
+        </h1>
+        <h2 class="text-center">
+            Find your way home!
+        </h2>
+    </div>
+    <div statistics stats="stats" />
+
+    <div class="row" ng-if="drivers.length || trips.length">
+        <div class="col-md-6" ng-if="trips.length">
+            <div class="panel panel-info">
+                <div class="panel-heading text-center">
+                    Latest trips
+                </div>
+                <div class="panel-body">
+                    <div trips />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" ng-if="drivers.length">
+            <div class="panel panel-info">
+                <div class="panel-heading text-center">
+                    Latest drivers
+                </div>
+                <div class="panel-body">
+                    <div drivers />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
