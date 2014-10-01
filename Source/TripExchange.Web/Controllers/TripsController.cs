@@ -84,7 +84,7 @@
             }
 
             var orderByProperty = model.GetOrderByPropertyName();
-            if (orderByProperty != null)
+            if (!string.IsNullOrWhiteSpace(orderByProperty))
             {
                 if (model.OrderType == "desc")
                 {

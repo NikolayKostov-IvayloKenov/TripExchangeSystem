@@ -32,6 +32,11 @@
 
         public string GetOrderByPropertyName()
         {
+            if (string.IsNullOrWhiteSpace(this.OrderBy))
+            {
+                return null;
+            }
+
             switch (this.OrderBy.ToLower())
             {
                 case "driver":
